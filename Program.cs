@@ -1,11 +1,8 @@
-﻿using System.Diagnostics;
-using System.Linq;
-using Microsoft.AspNetCore;
+﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
-using Mynt.AspNetCore.Host.Hosting;
 
-namespace Mynt.AspNetCore.Host
+namespace MyntUI
 {
     public class Program
     {

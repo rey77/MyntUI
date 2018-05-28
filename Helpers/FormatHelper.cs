@@ -1,13 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using System.Globalization;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web;
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using static System.Decimal;
 
-namespace Mynt.AspNetCore.Host.Helpers
+namespace MyntUI.Helpers
 {
     public static class FormatHelper
     {
@@ -26,7 +22,7 @@ namespace Mynt.AspNetCore.Host.Helpers
 
             // Round value
             if (decimalPlaces != null && decimalPlaces > 0)
-                val = Round(val, decimalPlaces.Value);
+                val = Decimal.Round(val, decimalPlaces.Value);
 
             // Create tag builder and fill in styles and value
             var coloredValue = new TagBuilder("div");

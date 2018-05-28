@@ -1,4 +1,4 @@
-﻿namespace Mynt.AspNetCore.Host.Hosting
+﻿namespace MyntUI.Hosting
 {
     public class MyntHostedServiceOptions
     {

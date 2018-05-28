@@ -6,7 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Mynt.Core.Interfaces;
 using Mynt.Core.TradeManagers;
 
-namespace Mynt.AspNetCore.Host.Controllers
+namespace MyntUI.Controllers
 {
     public class MyntController : Controller
     {
@@ -71,7 +71,7 @@ namespace Mynt.AspNetCore.Host.Controllers
         {
             // Get log from today
             string date = DateTime.Now.ToString("yyyyMMdd");
-            ViewBag.log = Controllers.Log.ReadTail("Logs/Mynt-" + date + ".log", 100);
+            ViewBag.log = MyntUI.Controllers.Log.ReadTail("Logs/Mynt-" + date + ".log", 100);
 
             return View();
         }

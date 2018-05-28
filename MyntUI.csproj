@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <!--<TargetFrameworks>netcoreapp2.0;net471</TargetFrameworks>-->
@@ -8,6 +8,13 @@
     <OutputType>Exe</OutputType>
     <StartupObject />
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Mynt\**" />
+    <Content Remove="Mynt\**" />
+    <EmbeddedResource Remove="Mynt\**" />
+    <None Remove="Mynt\**" />
+  </ItemGroup>
 
   <ItemGroup>
     <None Remove="myapp.log" />
@@ -41,11 +48,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Mynt.Core\Mynt.Core.csproj" />
-    <ProjectReference Include="..\Mynt.Data.AzureTableStorage\Mynt.Data.AzureTableStorage.csproj" />
-    <ProjectReference Include="..\Mynt.Data.SqlServer\Mynt.Data.SqlServer.csproj" />
+    <ProjectReference Include="Mynt\src\Mynt.Core\Mynt.Core.csproj" />
+    <ProjectReference Include="Mynt\src\Mynt.Data.LiteDB\Mynt.Data.LiteDB.csproj" />
   </ItemGroup>
-
+  
   <ItemGroup>
     <Reference Include="System">
       <HintPath>System</HintPath>

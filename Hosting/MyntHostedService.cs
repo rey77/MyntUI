@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Mynt.Core.Interfaces;
 
-namespace Mynt.AspNetCore.Host.Hosting
+namespace MyntUI.Hosting
 {
     public class MyntHostedService : IHostedService, IDisposable
     {

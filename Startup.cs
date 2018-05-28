@@ -5,19 +5,18 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Mynt.AspNetCore.Host.Hosting;
 using Mynt.Core.Enums;
 using Mynt.Core.Exchanges;
 using Mynt.Core.Interfaces;
 using Mynt.Core.Notifications;
 using Mynt.Core.Strategies;
 using Mynt.Core.TradeManagers;
-using Mynt.Data.SqlServer;
-using Mynt.Data.AzureTableStorage;
+using Mynt.Data.LiteDB;
+using MyntUI.Hosting;
 using Serilog;
 using ILogger = Microsoft.Extensions.Logging.ILogger;
 
-namespace Mynt.AspNetCore.Host
+namespace MyntUI
 {
     public class Startup
     {
@@ -57,8 +56,8 @@ namespace Mynt.AspNetCore.Host
                 //.AddSingleton<IDataStore, SqlServerDataStore>()
                 //.AddSingleton(i => Configuration.GetSection("SqlServerOptions").Get<SqlServerOptions>()) // TODO
 
-                .AddSingleton<IDataStore, AzureTableStorageDataStore>()
-                .AddSingleton(i => Configuration.GetSection("AzureTableStorageOptions").Get<AzureTableStorageOptions>()) // TODO
+                .AddSingleton<IDataStore, LiteDBDataStore>()
+                .AddSingleton(i => Configuration.GetSection("LiteDBOptions").Get<LiteDBOptions>()) // TODO
                 .AddSingleton<ITradeManager, PaperTradeManager>()
                 .AddSingleton(i => tradeOptions)
 
