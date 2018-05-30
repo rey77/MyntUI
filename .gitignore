@@ -295,3 +295,6 @@ wwwroot/dist
 
 #Default Database
 Mynt.db
+
+#npm
+package-lock.json

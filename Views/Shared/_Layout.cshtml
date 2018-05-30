@@ -1,42 +1,22 @@
-﻿@{
-    ViewBag.Title = "Mynt - trading bot";
-}
 <!DOCTYPE html>
-
 <html>
+
 <head>
-    <meta name="viewport" content="width=device-width" />
-    <title>@ViewBag.Title</title>
-    <link rel="icon" type="image/x-icon" class="js-site-favicon" href="~/images/favicon.ico">
-    <link rel="stylesheet" href="~/css/Style.css" />
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - MyntUI</title>
+
+    <link rel="stylesheet" href="~/dist/vendor.css" asp-append-version="true" />
+    <environment names="Staging,Production">
+        <link rel="stylesheet" href="~/dist/site.css" asp-append-version="true" />
+    </environment>
 </head>
 
 <body>
-    <!-- Begin nav content -->
-    @Html.Partial("Nav/Nav")
+@RenderBody()
 
-    <!-- Begin page content -->
-    <main role="main" class="container">
-        <div>
-            @RenderBody()
-        </div>
-    </main>
-    
-    <!-- Begin footer content -->
-    @Html.Partial("Footer/Footer")
-
-    
-    <!-- Begin scripts -->
-    <script src="~/js/Script.js"></script>
-    <script src="~/lib/jquery/dist/jquery.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-    <script src="~/lib/jquery-stupid-table/stupidtable.min.js"></script>
-    @*<script language="javascript">
-        $(document).ready(function () {
-            //enable sorting for tables
-            $(".sortable").stupidtable();
-        });
-    </script>*@
+<script src="~/dist/vendor.js" asp-append-version="true"></script>
+@RenderSection("scripts", required: false)
 </body>
+
 </html>
