@@ -291,7 +291,7 @@ __pycache__/
 /src/Mynt.AspNetCore.Host/appsettings.overrides.json
 
 #bower folder
-wwwroot/lib
+wwwroot/dist
 
 #Default Database
 Mynt.db

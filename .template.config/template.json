@@ -1,0 +1,53 @@
+{
+    "$schema": "http://json.schemastore.org/template",
+    "author": "Thiemo Borger",
+    "classifications": [ "Web", "MVC", "SPA" ],
+    "groupIdentity": "myntui",
+    "identity": "myntui.1.0",
+    "name": "MyntUI - Mynt Trading Bot WebInterface",
+    "primaryOutputs": [
+        {
+          "path": "MyntUI.csproj"
+        }
+      ],
+    "shortName": "vuejs",
+    "tags": {
+        "language": "C#",
+        "type": "project"
+      },
+    "sourceName": "MyntUI",
+    "preferNameDirectory": true,
+    "sources": [
+        {
+          "source": "./",
+          "target": "./",
+          "exclude": [
+            ".template.config/**"
+          ]
+        }
+      ],
+    "guids": [
+        "B5FE715F-AB99-4FA6-AEC1-D3B644C76DF7"
+    ],
+    "symbols": {
+        "skipRestore": {
+            "type": "parameter",
+            "datatype": "bool",
+            "description": "If specified, skips the automatic restore of the project on create.",
+            "defaultValue": "false"
+          }
+    },
+    "postActions": [
+        {
+          "condition": "(!skipRestore)",
+          "description": "Restore NuGet packages required by this project.",
+          "manualInstructions": [
+            {
+              "text": "Run 'dotnet restore'"
+            }
+          ],
+          "actionId": "210D431B-A78B-4D2F-B762-4ED3E3EA9025",
+          "continueOnError": true
+        }
+      ]
+}
