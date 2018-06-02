@@ -1,4 +1,4 @@
-﻿#if !NETCOREAPP2_0
+#if !NETCOREAPP2_1
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Hosting.WindowsServices;
 using Microsoft.Extensions.DependencyInjection;

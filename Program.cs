@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 
@@ -10,7 +10,7 @@ namespace MyntUI
         {
             var host = BuildWebHost(args);
 
-#if NETCOREAPP2_0
+#if NETCOREAPP2_1
             host.Run();
 #else
             if (Debugger.IsAttached || args.Contains("--console"))

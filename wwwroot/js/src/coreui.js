@@ -63,9 +63,9 @@
       VIEW_SCRIPT: '.view-script'
     };
     var Default = {
-      defaultPage: 'main.html',
-      errorPage: '404.html',
-      subpagesDirectory: 'views/'
+      defaultPage: '/views/main.html',
+      errorPage: '/views/404.html',
+      subpagesDirectory: ''
     };
 
     var AjaxLoad =
@@ -151,8 +151,19 @@
       _proto.setUpUrl = function setUpUrl(url) {
         $$$1(Selector.NAV_LINK).removeClass(ClassName.ACTIVE);
         $$$1(Selector.NAV_DROPDOWN).removeClass(ClassName.OPEN);
-        $$$1(Selector.NAV_DROPDOWN + ":has(a[href=\"" + url.replace(/^\//, '').split('?')[0] + "\"])").addClass(ClassName.OPEN);
-        $$$1(Selector.NAV_ITEM + " a[href=\"" + url.replace(/^\//, '').split('?')[0] + "\"]").addClass(ClassName.ACTIVE);
+        $$$1(Selector.NAV_DROPDOWN + ":has(a[href=\"" + url.split('?')[0] + "\"])").addClass(ClassName.OPEN);
+        $$$1(Selector.NAV_ITEM + " a[href=\"" + url.split('?')[0] + "\"]").addClass(ClassName.ACTIVE);
+
+		//Setup Breadcrumb
+		var menuName = '<li class="breadcrumb-item"><a href="/">Home</a></li>';
+		$.menuElement = $('nav .nav li:has(a[href="' + url.split('?')[0] + '"])');
+		if ($.menuElement.parent().parent().hasClass('nav-dropdown open')) {
+			$.menuElementParentName = $.menuElement.parent().parent().find('span:first').text();
+			menuName = menuName + '<li class="breadcrumb-item">' + $.menuElementParentName + '</li>';
+		}
+		menuName = menuName + '<li class="breadcrumb-item active">' + $('nav .nav li:has(a[href="' + url.split('?')[0] + '"])').find('.active').find('span').first().text() + '</li>';
+		$('#breadcrumb').html(menuName);	
+		
         this.loadPage(url);
       };
 

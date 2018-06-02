@@ -1,4 +1,4 @@
-﻿#if !NETCOREAPP2_0
+#if !NETCOREAPP2_1
 using System.ServiceProcess;
 using Microsoft.AspNetCore.Hosting;
 
