@@ -31,5 +31,14 @@
     <ProjectReference Include="Mynt\src\Mynt.Core\Mynt.Core.csproj" />
     <ProjectReference Include="Mynt\src\Mynt.Data.LiteDB\Mynt.Data.LiteDB.csproj" />
   </ItemGroup>
+  
+  <Target Name="BeforeBuild">
+    <!-- Is node installed? -->
+    <Exec Command="node || start http://nodejs.org &amp;&amp; echo You need to install NodeJS" ContinueOnError="false" />
+    <!-- it is, so have npm install all dependencies -->
+    <Exec WorkingDirectory="$(ProjectDir)" Command="npm install" ContinueOnError="false" />
+    <!-- npm installed bower for us, so now let bower install it's dependencies -->
+    <Exec WorkingDirectory="$(ProjectDir)" Command="npm run build" ContinueOnError="false" />
+  </Target>
 
 </Project>

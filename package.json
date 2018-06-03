@@ -38,7 +38,7 @@
     "watch-js": "nodemon --watch wwwroot/js/src/ -x \"npm run js\""
   },
   "dependencies": {
-    "@coreui/coreui": "2.0.0",
+    "@coreui/coreui": "git://github.com/LORDofDOOM/coreui.git",
     "@coreui/coreui-plugin-chartjs-custom-tooltips": "1.2.0",
     "@coreui/icons": "^0.1.1",
     "bootstrap": "4.1.1",
