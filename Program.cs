@@ -28,7 +28,7 @@ namespace MyntUI
                 .ConfigureAppConfiguration(i => 
                     i.AddJsonFile("appsettings.overrides.json", true))
                 .UseStartup<Startup>()
-                //.UseUrls("http://*:5000")
+                .UseUrls("http://*:5000")
                 .Build();
     }
 }

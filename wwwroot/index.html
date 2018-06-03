@@ -1,31 +1,42 @@
 <!DOCTYPE html>
+
 <!--
-* CoreUI - Free Bootstrap Admin Template
+* MyntUI -
 * @version v2.0.0
-* @link https://coreui.io
-* Copyright (c) 2018 creativeLabs Łukasz Holeczek
-* Licensed under MIT (https://coreui.io/license)
+* @link https://github.com/LORDofDOOM/MyntUI
+* Copyright (c) 2018 Thiemo Borger
+* Licensed under MIT
 -->
 
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <meta name="description" content="CoreUI - Open Source Bootstrap Admin Template">
-    <meta name="author" content="Łukasz Holeczek">
-    <meta name="keyword" content="Bootstrap,Admin,Template,Open,Source,jQuery,CSS,HTML,RWD,Dashboard">
-    <title>CoreUI Free Bootstrap Admin Template</title>
-    <!-- Icons-->
-    <link href="/vendors/@coreui/icons/css/coreui-icons.min.css" rel="stylesheet">
-    <link href="/vendors/flag-icon-css/css/flag-icon.min.css" rel="stylesheet">
-    <link href="/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-    <link href="/vendors/simple-line-icons/css/simple-line-icons.css" rel="stylesheet">
-    <link href="/css/pace.min.css" rel="stylesheet">
-    <!-- Main styles for this application-->
-    <link href="/css/style.css" rel="stylesheet">
-  </head>
-  <body class="app header-fixed sidebar-fixed aside-menu-fixed sidebar-lg-show">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+  <title>MyntUI - Mynt Bot Admin Interface</title>
+  <!-- Icons-->
+  <link href="/vendors/@coreui/icons/css/coreui-icons.min.css" rel="stylesheet">
+  <link href="/vendors/flag-icon-css/css/flag-icon.min.css" rel="stylesheet">
+  <link href="/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+  <link href="/vendors/simple-line-icons/css/simple-line-icons.css" rel="stylesheet">
+  <link href="/css/pace.min.css" rel="stylesheet">
+  <!-- Main styles for this application-->
+  <link href="/css/style.css" rel="stylesheet">
+</head>
+
+<body class="app header-fixed sidebar-fixed aside-menu-fixed sidebar-lg-show">
+
+  <div id="wrapper">
+
+    <div id="connectionError" v-if="!serverOnline">
+      <div id="connectionErrorInfo">
+        <div style="text-align: center;">
+          <i class="fa fa-refresh" style="font-size: 100px;"></i>
+          <br>&nbsp;<h1>Server is offline<br> <span style="animation-duration: 2s" class="animated flash infinite">Reconnecting</span></h1>
+        </div>
+      </div>
+    </div>
+
     <header class="app-header navbar">
       <button class="navbar-toggler sidebar-toggler d-lg-none mr-auto" type="button" data-toggle="sidebar-show">
         <span class="navbar-toggler-icon"></span>
@@ -93,9 +104,11 @@
               <strong>Settings</strong>
             </div>
             <a class="dropdown-item" href="#">
-              <i class="fa fa-user"></i> Profile</a>
+              <i class="fa fa-user"></i> Profile
+            </a>
             <a class="dropdown-item" href="#">
-              <i class="fa fa-wrench"></i> Settings</a>
+              <i class="fa fa-wrench"></i> Settings
+            </a>
             <a class="dropdown-item" href="#">
               <i class="fa fa-usd"></i> Payments
               <span class="badge badge-secondary">42</span>
@@ -106,9 +119,11 @@
             </a>
             <div class="divider"></div>
             <a class="dropdown-item" href="#">
-              <i class="fa fa-shield"></i> Lock Account</a>
+              <i class="fa fa-shield"></i> Lock Account
+            </a>
             <a class="dropdown-item" href="#">
-              <i class="fa fa-lock"></i> Logout</a>
+              <i class="fa fa-lock"></i> Logout
+            </a>
           </div>
         </li>
       </ul>
@@ -130,20 +145,18 @@
                 <span class="badge badge-primary">NEW</span>
               </a>
             </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/Mynt/Dashboard">
-              <i class="nav-icon icon-speedometer"></i>
-              <span>Mynt Dashboard</span>
-              <span class="badge badge-primary">NEW</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/Mynt/Log">
-              <i class="nav-icon icon-speedometer"></i>
-              <span>Mynt Log</span>
-              <span class="badge badge-primary">NEW</span>
-            </a>
-          </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/Mynt/Dashboard">
+                <i class="nav-icon icon-speedometer"></i>
+                <span>Mynt Dashboard</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/Mynt/Log">
+                <i class="nav-icon icon-speedometer"></i>
+                <span>Mynt Log</span>
+              </a>
+            </li>
             <li class="nav-title">Theme</li>
             <li class="nav-item">
               <a class="nav-link" href="/views/colors.html">
@@ -427,9 +440,11 @@
                 <i class="icon-speech"></i>
               </a>
               <a class="btn" href="./">
-                <i class="icon-graph"></i>  Dashboard</a>
+                <i class="icon-graph"></i> Dashboard
+              </a>
               <a class="btn" href="#">
-                <i class="icon-settings"></i>  Settings</a>
+                <i class="icon-settings"></i> Settings
+              </a>
             </div>
           </li>
         </ol>
@@ -464,35 +479,44 @@
                 <div class="avatar float-right">
                   <img class="img-avatar" src="img/avatars/7.jpg" alt="admin@bootstrapmaster.com">
                 </div>
-                <div>Meeting with
+                <div>
+                  Meeting with
                   <strong>Lucas</strong>
                 </div>
                 <small class="text-muted mr-3">
-                  <i class="icon-calendar"></i>  1 - 3pm</small>
+                  <i class="icon-calendar"></i> 1 - 3pm
+                </small>
                 <small class="text-muted">
-                  <i class="icon-location-pin"></i>  Palo Alto, CA</small>
+                  <i class="icon-location-pin"></i> Palo Alto, CA
+                </small>
               </div>
               <div class="list-group-item list-group-item-accent-info">
                 <div class="avatar float-right">
                   <img class="img-avatar" src="img/avatars/4.jpg" alt="admin@bootstrapmaster.com">
                 </div>
-                <div>Skype with
+                <div>
+                  Skype with
                   <strong>Megan</strong>
                 </div>
                 <small class="text-muted mr-3">
-                  <i class="icon-calendar"></i>  4 - 5pm</small>
+                  <i class="icon-calendar"></i> 4 - 5pm
+                </small>
                 <small class="text-muted">
-                  <i class="icon-social-skype"></i>  On-line</small>
+                  <i class="icon-social-skype"></i> On-line
+                </small>
               </div>
               <div class="list-group-item list-group-item-accent-secondary bg-light text-center font-weight-bold text-muted text-uppercase small">Tomorrow</div>
               <div class="list-group-item list-group-item-accent-danger list-group-item-divider">
-                <div>New UI Project -
+                <div>
+                  New UI Project -
                   <strong>deadline</strong>
                 </div>
                 <small class="text-muted mr-3">
-                  <i class="icon-calendar"></i>  10 - 11pm</small>
+                  <i class="icon-calendar"></i> 10 - 11pm
+                </small>
                 <small class="text-muted">
-                  <i class="icon-home"></i>  creativeLabs HQ</small>
+                  <i class="icon-home"></i> creativeLabs HQ
+                </small>
                 <div class="avatars-stack mt-2">
                   <div class="avatar avatar-xs">
                     <img class="img-avatar" src="img/avatars/2.jpg" alt="admin@bootstrapmaster.com">
@@ -513,20 +537,25 @@
               </div>
               <div class="list-group-item list-group-item-accent-success list-group-item-divider">
                 <div>
-                  <strong>#10 Startups.Garden</strong> Meetup</div>
+                  <strong>#10 Startups.Garden</strong> Meetup
+                </div>
                 <small class="text-muted mr-3">
-                  <i class="icon-calendar"></i>  1 - 3pm</small>
+                  <i class="icon-calendar"></i> 1 - 3pm
+                </small>
                 <small class="text-muted">
-                  <i class="icon-location-pin"></i>  Palo Alto, CA</small>
+                  <i class="icon-location-pin"></i> Palo Alto, CA
+                </small>
               </div>
               <div class="list-group-item list-group-item-accent-primary list-group-item-divider">
                 <div>
                   <strong>Team meeting</strong>
                 </div>
                 <small class="text-muted mr-3">
-                  <i class="icon-calendar"></i>  4 - 6pm</small>
+                  <i class="icon-calendar"></i> 4 - 6pm
+                </small>
                 <small class="text-muted">
-                  <i class="icon-home"></i>  creativeLabs HQ</small>
+                  <i class="icon-home"></i> creativeLabs HQ
+                </small>
                 <div class="avatars-stack mt-2">
                   <div class="avatar avatar-xs">
                     <img class="img-avatar" src="img/avatars/2.jpg" alt="admin@bootstrapmaster.com">
@@ -737,15 +766,99 @@
     <script src="/vendors/jquery/js/jquery.min.js"></script>
     <script src="/vendors/popper.js/js/popper.min.js"></script>
     <script src="/vendors/bootstrap/js/bootstrap.min.js"></script>
+    <script>
+      //Fix Pace interop with signalr
+      window.paceOptions = {
+        ajax: false,
+        restartOnRequestAfter: false
+      };
+    </script>
     <script src="/vendors/pace-progress/js/pace.min.js"></script>
     <script src="/vendors/perfect-scrollbar/js/perfect-scrollbar.min.js"></script>
     <script src="/vendors/@coreui/coreui/js/coreui.min.js"></script>
     <script src="/vendors/vue/js/vue.min.js"></script>
+    <script src="/vendors/@aspnet/signalr/js/signalr.min.js"></script>
+
     <script>
-      $('#ui-view').ajaxLoad();
-      $(document).ajaxComplete(function() {
-        Pace.restart()
-      });
+      var isConnected = false;
     </script>
-  </body>
+
+    <script>
+
+      $(document).ajaxComplete(function () {
+        Pace.restart();
+      });
+
+      var vueRuntime = new Vue({
+        el: '#wrapper',
+
+        data: {
+          serverOnline: false
+        },
+
+        created: function () {
+          this.connectSignalr();
+          this.fetchData();
+        },
+
+        methods: {
+          connectSignalr: function () {
+            var self = this;
+            let hubRoute = "/signalr/HubMainIndex";
+            let protocol = new signalR.JsonHubProtocol();
+            var options = {};
+
+            var connectionMain = new signalR.HubConnectionBuilder()
+              //.configureLogging(signalR.LogLevel.Trace)
+              .withUrl(hubRoute, options)
+              .withHubProtocol(protocol)
+              .build();
+
+            var reconnectSignalr = function () {
+              if (!self.serverOnline) {
+                connectionMain.start().then(function () {
+                  self.serverOnline = true;
+                }).catch(function (err) {
+                  self.serverOnline = false;
+                  // restart connection after 5sec -> prevents timeout
+                  // console.log('Connect Error:' + err);
+                  setTimeout(function () {
+                    console.log("reconnnect");
+                    reconnectSignalr();
+                  }, 5000);
+                });
+              }
+            }
+
+            connectionMain.on('Send', function (msg) {
+              console.log(msg);
+            });
+
+            connectionMain.onclose(function (e) {
+              if (e) {
+                console.log('Connection closed with error: ' + e);
+              }
+              else {
+                console.log('Disconnected');
+              }
+              //Reconnect -> This connection should never be offline
+              reconnectSignalr();
+            });
+
+            reconnectSignalr();
+          },
+
+          fetchData: function () {
+            var self = this;
+            //Trigger ajaxLoad
+            self.$nextTick(function () {
+              $('#ui-view').ajaxLoad();
+            });
+          }
+        }
+      });
+
+    </script>
+  </div>
+</body>
 </html>

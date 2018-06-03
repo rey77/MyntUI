@@ -13,6 +13,7 @@ using Mynt.Core.Strategies;
 using Mynt.Core.TradeManagers;
 using Mynt.Data.LiteDB;
 using MyntUI.Hosting;
+using MyntUI.Hubs;
 using Serilog;
 using ILogger = Microsoft.Extensions.Logging.ILogger;
 
@@ -30,6 +31,23 @@ namespace MyntUI
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
     {
+
+
+      services.AddConnections();
+
+      services.AddSignalR();
+
+      services.AddCors(o =>
+      {
+        o.AddPolicy("Everything", p =>
+        {
+          p.AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowAnyOrigin()
+            .AllowCredentials();
+        });
+      });
+
       // Configure serilog from appsettings.json
       var serilogger = new LoggerConfiguration()
           .ReadFrom.Configuration(Configuration)
@@ -78,6 +96,13 @@ namespace MyntUI
       {
         app.UseDeveloperExceptionPage();
       }
+
+      app.UseWebSockets();
+
+      app.UseSignalR(routes =>
+      {
+        routes.MapHub<HubMainIndex>("/signalr/HubMainIndex");
+      });
 
       app.UseMvc(routes =>
       {
