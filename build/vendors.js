@@ -55,7 +55,7 @@ const findVendors = () => {
   const vendors = []
   // const assets = []
   // const vendors = { css: [], js: [], other: [] }
-  const filenames = walkSync(src)
+  const filenames = globule.find(src + '/**/*');
 
   filenames.forEach((filename) => {
     if (extension(filename) === '.html') {
@@ -70,12 +70,28 @@ const findVendors = () => {
           let vendor = []
           let src = (nodeModules[1]).replace("/vendors", "node_modules")
 		  
+		  let foundAssembly = false;
 		  var filepaths = globule.find('node_modules/' + src.split("/")[1] + '/**/*');
+		  var jsFolderMatch = []
+		  
 		  filepaths.forEach((globFile) => {
 				if (path.basename(src) == path.basename(globFile)){
 					src = globFile;
-				}		  
+					jsFolderMatch.push(globFile);
+					foundAssembly = true;
+				}
 		  });
+
+		  if (jsFolderMatch.length > 1)
+		  {
+			  jsFolderMatch.forEach((jsFileMatch) => {
+					//Prevent usage of cjs/esm/umd folder for js files if there are any
+					if (jsFileMatch.includes("/js/"))
+					{
+						src = jsFileMatch;
+					}
+			  });			  
+		  }
 		  
           const name = vendorName(src)
           let type
