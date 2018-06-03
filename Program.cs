@@ -1,14 +1,24 @@
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using MyntUI.Helpers;
+using Newtonsoft.Json.Linq;
 
 namespace MyntUI
 {
-    public class Program
+
+  //Define Global Variables 
+  public static class Global
+  {
+    public static JObject RuntimeSettings = new JObject();
+  }
+
+  public class Program
     {
         public static void Main(string[] args)
         {
-            var host = BuildWebHost(args);
+          GlobalSettings.Init();
+          var host = BuildWebHost(args);
 
 #if NETCOREAPP2_1
             host.Run();
