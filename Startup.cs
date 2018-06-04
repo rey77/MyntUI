@@ -102,6 +102,7 @@ namespace MyntUI
       app.UseSignalR(routes =>
       {
         routes.MapHub<HubMainIndex>("/signalr/HubMainIndex");
+        routes.MapHub<HubMyntTraders>("/signalr/HubMyntTraders");
       });
 
       app.UseMvc(routes =>

@@ -1,0 +1,196 @@
+<div class="animated fadeIn" id="myntTraders" v-if="myntTradersData">
+  <h3 class="mt-5">Traders</h3>
+  <p v-if="myntTradersData.traders.length == 0">No traders!</p>
+
+  <div class="row" v-if="myntTradersData.traders.length > 0">
+    <template v-for="(value, key, index) in myntTradersData.traders">
+      <div class="col-lg-6 col-md-6 col-sm-6">
+        <div class="card text-white bg-primary trader">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-8">
+                <h4 class="card-title">Trader {{myntTradersData.traders[key].identifier}}</h4>
+              </div>
+              <div class="col-md-4">
+                <!--<a href="#" class="btn btn-success btn-xs">! Sell now</a>-->
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4">
+                <div>Current Balance</div>
+                <b>{{myntTradersData.quoteCurrency}}</b>
+              </div>
+              <div class="col-md-4">
+                <div>Profit/Loss</div>
+                <div>
+                  {{myntTradersData.traders[key].profitLoss}}
+                  <span class="currencyStyle">{{myntTradersData.quoteCurrency}}</span>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div>Trading</div>
+                <div v-if="myntTradersData.activeTrades.length > 0">
+                  {{myntTradersData.ActiveTrade.openProfitPercentage}}
+                  <!-- ToDo -->
+                  <!--<div class="currencyStyle">@trade.Market</div>-->
+                </div>
+                <div v-if="myntTradersData.activeTrades.length == 0">No active trade</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </template>
+  </div>
+
+  <h3 class="mt-5">Active Trades</h3>
+  <p v-if="myntTradersData.activeTrades.length == 0">No active trades!</p>
+  <template v-if="myntTradersData.activeTrades.length > 0">
+    <div class="whiteblock">
+      <table class="table table-hover table-sm" id="activeTrades" style="width: 100%">
+        <thead>
+          <tr>
+            <th>Trader Id</th>
+            <th>Bought</th>
+            <th>Coin</th>
+            <th>Quantity</th>
+            <th>Open rate</th>
+            <th>Last price</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(value, key, index) in myntTradersData.activeTrades">
+            <td>{{myntTradersData.activeTrades[key].id}}</td>
+            <td>{{myntTradersData.activeTrades[key].openDate}}</td>
+            <td>{{myntTradersData.activeTrades[key].market}}</td>
+            <td>{{myntTradersData.activeTrades[key].quantity}}</td>
+            <td>{{myntTradersData.activeTrades[key].openRate}}</td>
+            <td>{{myntTradersData.activeTrades[key].tickerLast}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </template>
+
+
+  <h3 class="mt-5">Trade history</h3>
+  <p v-if="myntTradersData.closedTrades.length == 0">No closed trades!</p>
+  <template v-if="myntTradersData.closedTrades.length > 0">
+    <div class="whiteblock">
+      <table class="table table-hover table-sm" id="closedTrades" style="width: 100%">
+        <thead>
+          <tr>
+            <th data-sort="int">Trader Id</th>
+            <th>Bought</th>
+            <th>Coin</th>
+            <th>Open rate</th>
+            <th>Quantity</th>
+            <th>Close rate</th>
+            <th>Closed</th>
+            <th>Profit</th>
+            <th>Profit %</th>
+            <th>Reason</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(value, key, index) in myntTradersData.closedTrades">
+            <td>{{myntTradersData.activeTrades[key].traderId}}</td>
+            <td>{{myntTradersData.activeTrades[key].openDate}}</td>
+            <td>{{myntTradersData.activeTrades[key].market}}</td>
+            <td>{{myntTradersData.activeTrades[key].openRate}}</td>
+            <td>{{myntTradersData.activeTrades[key].quantity}}</td>
+            <td>{{myntTradersData.activeTrades[key].closeRate}}</td>
+            <td>{{myntTradersData.activeTrades[key].closeDate}}</td>
+            <td>{{myntTradersData.activeTrades[key].closeProfit}}</td>
+            <td>{{myntTradersData.activeTrades[key].closeProfitPercentage}}</td>
+            <td>{{myntTradersData.activeTrades[key].sellType}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </template>
+</div>
+
+
+
+<script src="/vendors/vue/js/vue.min.js"></script>
+
+
+<script>
+  var pagefunction = function () {
+  };
+
+  var myntTraders = new Vue({
+    el: '#myntTraders',
+
+    data: {
+      myntTradersData: null
+    },
+
+    created: function () {
+      this.connectSignalr();
+      this.fetchData();
+    },
+
+    methods: {
+      connectSignalr: function () {
+        var self = this;
+        let hubRoute = "/signalr/HubMyntTraders";
+        let protocol = new signalR.JsonHubProtocol();
+        var options = {};
+
+        var connection = new signalR.HubConnectionBuilder()
+          //.configureLogging(signalR.LogLevel.Trace)
+          .withUrl(hubRoute, options)
+          .withHubProtocol(protocol)
+          .build();
+
+        var connectSignalr = function () {
+          connection.start().then(function () {
+            //Make sure to register this signalr client - Needed for disconnect on page change
+            addSignalrClient(hubRoute, connection);
+          }).catch(function (err) {
+            console.log(err);
+          });
+        };
+
+        var reconnectSignalr = function () {
+          console.log(signalrConnections);
+          if (signalrConnections[hubRoute] != null) {
+            setTimeout(function () {
+              console.log("reconnnect");
+              connectSignalr();
+            }, 5000);
+          }
+        }
+
+        connection.on('Send', function (msg) {
+          console.log(msg);
+        });
+
+        connection.onclose(function (e) {
+          if (e) {
+            console.log('Connection closed with error: ' + e);
+          }
+          else {
+            console.log('Disconnected');
+          }
+          //Reconnect -> This connection should never be offline
+          reconnectSignalr();
+        });
+
+        connectSignalr();
+      },
+
+      fetchData: function () {
+        var self = this;
+        $.get("/api/mynt/traders", function (data) {
+          self.myntTradersData = data;
+          self.$nextTick(function () {
+            pagefunction();
+          });
+        });
+      }
+    }
+  });
+</script>

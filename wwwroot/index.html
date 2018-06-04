@@ -103,55 +103,61 @@
     <div class="app-body">
       <div class="sidebar">
         <nav class="sidebar-nav">
-        <ul class="nav">
+          <ul class="nav">
 
-        <li class="navigationHeader">
-          <!-- Sidebar user panel -->
-          <div class="user-panel">
-            <div class="pull-left image">
-              <img src="/api/core/globals/avatar" class="img-circle" alt="User Image">
-            </div>
-            <div class="pull-left info">
-              <p v-if="runtimeSettings">{{runtimeSettings["platform"]["userName"]}}</p>
-              <span style="font-size: 10px;" v-if="serverOnline"><i class="fa fa-circle text-success"></i> Online</span>
-              <span style="font-size: 10px;" v-if="!serverOnline"><i class="fa fa-circle text-danger"></i> Offline</span>
-            </div>
-          </div>
-          <!-- search form -->
-          <form action="#" method="get" class="sidebar-search">
-            <div class="input-group">
-              <input type="text" name="q" class="form-control" placeholder="Search...">
-              <span class="input-group-btn">
-                <button type="submit" name="search" id="search-btn" class="btn btn-flat">
-                  <i class="fa fa-search"></i>
-                </button>
-              </span>
-            </div>
-          </form>
-          <!-- /.search form -->
-        </li>
+            <li class="navigationHeader">
+              <!-- Sidebar user panel -->
+              <div class="user-panel">
+                <div class="pull-left image">
+                  <img src="/api/core/globals/avatar" class="img-circle" alt="User Image">
+                </div>
+                <div class="pull-left info">
+                  <p v-if="runtimeSettings">{{runtimeSettings["platform"]["userName"]}}</p>
+                  <span style="font-size: 10px;" v-if="serverOnline"><i class="fa fa-circle text-success"></i> Online</span>
+                  <span style="font-size: 10px;" v-if="!serverOnline"><i class="fa fa-circle text-danger"></i> Offline</span>
+                </div>
+              </div>
+              <!-- search form -->
+              <form action="#" method="get" class="sidebar-search">
+                <div class="input-group">
+                  <input type="text" name="q" class="form-control" placeholder="Search...">
+                  <span class="input-group-btn">
+                    <button type="submit" name="search" id="search-btn" class="btn btn-flat">
+                      <i class="fa fa-search"></i>
+                    </button>
+                  </span>
+                </div>
+              </form>
+              <!-- /.search form -->
+            </li>
 
-        <li class="nav-title">MAIN NAVIGATION</li>
-        <li class="nav-item">
-          <a class="nav-link" href="/views/main.html">
-            <i class="nav-icon icon-speedometer"></i>
-            <span>Dashboard</span>
-            <span class="badge badge-primary">NEW</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/Mynt/Dashboard">
-            <i class="nav-icon icon-speedometer"></i>
-            <span>Mynt Dashboard</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/Mynt/Log">
-            <i class="nav-icon icon-speedometer"></i>
-            <span>Mynt Log</span>
-          </a>
-        </li>
-        </ul>
+            <li class="nav-title">MAIN NAVIGATION</li>
+            <li class="nav-item">
+              <a class="nav-link" href="/views/main.html">
+                <i class="nav-icon icon-speedometer"></i>
+                <span>Dashboard</span>
+                <span class="badge badge-primary">NEW</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/Mynt/Dashboard">
+                <i class="nav-icon icon-speedometer"></i>
+                <span>Mynt Dashboard</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/views/mynt_traders.html">
+                <i class="nav-icon icon-speedometer"></i>
+                <span>TEST</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/Mynt/Log">
+                <i class="nav-icon icon-speedometer"></i>
+                <span>Mynt Log</span>
+              </a>
+            </li>
+          </ul>
         </nav>
         <button class="sidebar-minimizer brand-minimizer" type="button"></button>
       </div>
@@ -213,6 +219,7 @@
     </div>
 
     <!-- Bootstrap and necessary plugins-->
+    <script src="/js/global.js"></script>
     <script src="/vendors/jquery/js/jquery.min.js"></script>
     <script src="/vendors/popper.js/js/popper.min.js"></script>
     <script src="/vendors/bootstrap/js/bootstrap.min.js"></script>
@@ -223,18 +230,18 @@
         restartOnRequestAfter: false
       };
     </script>
+    <script src="/vendors/@aspnet/signalr/js/signalr.min.js"></script>
     <script src="/vendors/pace-progress/js/pace.min.js"></script>
     <script src="/vendors/perfect-scrollbar/js/perfect-scrollbar.min.js"></script>
     <script src="/vendors/@coreui/coreui/js/coreui.min.js"></script>
     <script src="/vendors/vue/js/vue.min.js"></script>
-    <script src="/vendors/@aspnet/signalr/js/signalr.min.js"></script>
+
 
     <script>
       var isConnected = false;
     </script>
 
     <script>
-
       $(document).ajaxComplete(function () {
         Pace.restart();
       });
