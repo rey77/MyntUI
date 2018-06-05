@@ -299,3 +299,5 @@ wwwroot/css/*.min.css.map
 
 #Default Database
 Mynt.db
+
+package-lock.json
