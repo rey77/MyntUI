@@ -113,7 +113,7 @@ const findVendors = () => {
                   const assetPath = asset.match(/(?:url)\((.*?)\)/)[1]
                   let subVendor = []
                   if (assetPath !== undefined) {
-                    const path = assetPath.replace(/\?.*/, '').replace(/\'|\"/, '')
+                    const path = assetPath.replace(/\?.*/, '').replace(/\#.*/, '').replace(/\'|\"/, '').replace(/\'|\"/, '')
                     subVendor['name'] = name
                     subVendor['filetype'] = 'other'
                     subVendor['src'] = normalize(`css/${path}`)

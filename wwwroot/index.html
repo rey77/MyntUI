@@ -17,7 +17,10 @@
   <!-- Icons-->
   <link href="/vendors/@coreui/icons/css/coreui-icons.min.css" rel="stylesheet">
   <link href="/vendors/flag-icon-css/css/flag-icon.min.css" rel="stylesheet">
-  <link href="/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+  <link href="/vendors/@fortawesome/fontawesome-free-webfonts/css/fontawesome.css" rel="stylesheet">
+  <link href="/vendors/@fortawesome/fontawesome-free-webfonts/css/fa-regular.css" rel="stylesheet">
+  <link href="/vendors/@fortawesome/fontawesome-free-webfonts/css/fa-brands.css" rel="stylesheet">
+  <link href="/vendors/@fortawesome/fontawesome-free-webfonts/css/fa-solid.css" rel="stylesheet">
   <link href="/vendors/simple-line-icons/css/simple-line-icons.css" rel="stylesheet">
   <link href="/css/pace.min.css" rel="stylesheet">
   <!-- Main styles for this application-->
@@ -31,7 +34,7 @@
     <div id="connectionError" v-if="!serverOnline">
       <div id="connectionErrorInfo">
         <div style="text-align: center;">
-          <i class="fa fa-refresh" style="font-size: 100px;"></i>
+          <i class="far fa-refresh" style="font-size: 100px;"></i>
           <br>&nbsp;<h1>Server is offline<br> <span style="animation-duration: 2s" class="animated flash infinite">Reconnecting</span></h1>
         </div>
       </div>
@@ -113,8 +116,8 @@
                 </div>
                 <div class="pull-left info">
                   <p v-if="runtimeSettings">{{runtimeSettings["platform"]["userName"]}}</p>
-                  <span style="font-size: 10px;" v-if="serverOnline"><i class="fa fa-circle text-success"></i> Online</span>
-                  <span style="font-size: 10px;" v-if="!serverOnline"><i class="fa fa-circle text-danger"></i> Offline</span>
+                  <span style="font-size: 10px;" v-if="serverOnline"><i class="far fa-circle text-success"></i> Online</span>
+                  <span style="font-size: 10px;" v-if="!serverOnline"><i class="far fa-circle text-danger"></i> Offline</span>
                 </div>
               </div>
               <!-- search form -->
@@ -123,7 +126,7 @@
                   <input type="text" name="q" class="form-control" placeholder="Search...">
                   <span class="input-group-btn">
                     <button type="submit" name="search" id="search-btn" class="btn btn-flat">
-                      <i class="fa fa-search"></i>
+                      <i class="fas fa-search"></i>
                     </button>
                   </span>
                 </div>
@@ -134,26 +137,26 @@
             <li class="nav-title">MAIN NAVIGATION</li>
             <li class="nav-item">
               <a class="nav-link" href="/views/main.html">
-                <i class="nav-icon icon-speedometer"></i>
+                <i class="nav-icon fas fa-tachometer-alt"></i>
                 <span>Dashboard</span>
                 <span class="badge badge-primary">NEW</span>
               </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/Mynt/Dashboard">
-                <i class="nav-icon icon-speedometer"></i>
+                <i class="nav-icon fas fa-tachometer-alt"></i>
                 <span>Mynt Dashboard</span>
               </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/views/mynt_traders.html">
-                <i class="nav-icon icon-speedometer"></i>
-                <span>TEST</span>
+                <i class="nav-icon fas fa-tachometer-alt"></i>
+                <span>Mynt Dashboard vuejs</span>
               </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/Mynt/Log">
-                <i class="nav-icon icon-speedometer"></i>
+                <i class="nav-icon fas fa-tachometer-alt"></i>
                 <span>Mynt Log</span>
               </a>
             </li>
