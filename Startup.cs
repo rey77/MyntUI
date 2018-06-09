@@ -64,10 +64,9 @@ namespace MyntUI
 
       var tradeOptions = Configuration.GetSection("TradeOptions").Get<TradeOptions>();
 
-      var type = Type.GetType($"Mynt.Core.Strategies.{tradeOptions.DefaultStrategy}, Mynt.Core", true, true);
+      //var type = Type.GetType($"Mynt.Core.Strategies.{tradeOptions.DefaultStrategy}, Mynt.Core", true, true);
 
-      // Major TODO, coming soon
-      services.AddSingleton(s => Activator.CreateInstance(type) as ITradingStrategy ?? new TheScalper())
+      services.AddSingleton(s => new TheScalper() as ITradingStrategy ?? new TheScalper())
           .AddSingleton<INotificationManager, TelegramNotificationManager>()
           .AddSingleton(i => Configuration.GetSection("Telegram").Get<TelegramNotificationOptions>()) // TODO
 
