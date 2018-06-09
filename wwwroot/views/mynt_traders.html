@@ -30,7 +30,9 @@
               <div class="col-md-4">
                 <div>Trading</div>
                 <div v-if="myntTradersData.activeTrades.length > 0">
-                  {{myntTradersData.ActiveTrade.openProfitPercentage}}
+				  <template v-if="myntTradersData.activeTrades[key]">
+					{{myntTradersData.activeTrades[key].openProfitPercentage}}
+				  </template>
                   <!-- ToDo -->
                   <!--<div class="currencyStyle">@trade.Market</div>-->
                 </div>
