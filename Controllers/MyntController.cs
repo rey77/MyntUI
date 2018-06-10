@@ -166,15 +166,5 @@ namespace MyntUI.Controllers
             return View();
         }
 
-
-        // GET: /<controller>/
-        public IActionResult Log()
-        {
-            // Get log from today
-            string date = DateTime.Now.ToString("yyyyMMdd");
-            ViewBag.log = MyntUI.Controllers.Log.ReadTail("Logs/Mynt-" + date + ".log", 100);
-
-            return View();
-        }
     }
 }

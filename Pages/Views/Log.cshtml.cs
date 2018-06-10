@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace Mynt.AspNetCore.Host.Views.Mynt
+namespace MyntUI.Pages.Views
 {
-    public class DashboardModel : PageModel
+    public class LogModel : PageModel
     {
         public void OnGet()
         {

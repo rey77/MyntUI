@@ -74,16 +74,7 @@ namespace MyntUI
         routes.MapHub<HubMyntStatistics>("/signalr/HubMyntStatistics");
       });
 
-      app.UseMvc(routes =>
-      {
-        routes.MapRoute(
-          name: "default",
-          template: "{controller=Home}/{action=Index}/{id?}");
-
-        routes.MapSpaFallbackRoute(
-          name: "spa-fallback",
-          defaults: new {controller = "Home", action = "Index"});
-      });
+      app.UseMvc();
 
       // DI is ready - Init 
       GlobalSettings.Init();

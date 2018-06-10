@@ -2,8 +2,8 @@
 
 <!--
 * MyntUI -
-* @version v2.0.0
-* @link https://github.com/LORDofDOOM/MyntUI
+* @@version v2.0.0
+* @@link https://github.com/LORDofDOOM/MyntUI
 * Copyright (c) 2018 Thiemo Borger
 * Licensed under MIT
 -->
@@ -15,12 +15,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
   <title>MyntUI - Mynt Bot Admin Interface</title>
   <!-- Icons-->
-  <link href="/vendors/@coreui/icons/css/coreui-icons.min.css" rel="stylesheet">
+  <link href="/vendors/@@coreui/icons/css/coreui-icons.min.css" rel="stylesheet">
   <link href="/vendors/flag-icon-css/css/flag-icon.min.css" rel="stylesheet">
-  <link href="/vendors/@fortawesome/fontawesome-free-webfonts/css/fontawesome.css" rel="stylesheet">
-  <link href="/vendors/@fortawesome/fontawesome-free-webfonts/css/fa-regular.css" rel="stylesheet">
-  <link href="/vendors/@fortawesome/fontawesome-free-webfonts/css/fa-brands.css" rel="stylesheet">
-  <link href="/vendors/@fortawesome/fontawesome-free-webfonts/css/fa-solid.css" rel="stylesheet">
+  <link href="/vendors/@@fortawesome/fontawesome-free-webfonts/css/fontawesome.css" rel="stylesheet">
+  <link href="/vendors/@@fortawesome/fontawesome-free-webfonts/css/fa-regular.css" rel="stylesheet">
+  <link href="/vendors/@@fortawesome/fontawesome-free-webfonts/css/fa-brands.css" rel="stylesheet">
+  <link href="/vendors/@@fortawesome/fontawesome-free-webfonts/css/fa-solid.css" rel="stylesheet">
   <link href="/vendors/simple-line-icons/css/simple-line-icons.css" rel="stylesheet">
   <link href="/css/pace.min.css" rel="stylesheet">
   <!-- Main styles for this application-->
@@ -143,7 +143,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/Mynt/Dashboard">
+              <a class="nav-link" href="/Views/Dashboard">
                 <i class="nav-icon fas fa-tachometer-alt"></i>
                 <span>Mynt Dashboard</span>
               </a>
@@ -161,7 +161,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/Mynt/Log">
+              <a class="nav-link" href="/Views/Log">
                 <i class="nav-icon fas fa-tachometer-alt"></i>
                 <span>Mynt Log</span>
               </a>
@@ -194,7 +194,7 @@
           </li>
         </ol>
         <div class="container-fluid">
-          <div id="ui-view"></div>
+          <div id="ui-view">@RenderBody()</div>
         </div>
       </main>
       <aside class="aside-menu">
@@ -239,10 +239,10 @@
         restartOnRequestAfter: false
       };
     </script>
-    <script src="/vendors/@aspnet/signalr/js/signalr.min.js"></script>
+    <script src="/vendors/@@aspnet/signalr/js/signalr.min.js"></script>
     <script src="/vendors/pace-progress/js/pace.min.js"></script>
     <script src="/vendors/perfect-scrollbar/js/perfect-scrollbar.min.js"></script>
-    <script src="/vendors/@coreui/coreui/js/coreui.min.js"></script>
+    <script src="/vendors/@@coreui/coreui/js/coreui.min.js"></script>
     <script src="/vendors/vue/js/vue.min.js"></script>
 
 
