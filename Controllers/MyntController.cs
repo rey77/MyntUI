@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -25,6 +26,7 @@ namespace MyntUI.Controllers
   public class MyntApiController : Controller
   {
     [HttpGet]
+    [Route("dashboard")]
     public async Task<IActionResult> Dashboard()
     {
       var tradeOptions = Startup.Configuration.GetSection("TradeOptions").Get<TradeOptions>();
@@ -70,8 +72,51 @@ namespace MyntUI.Controllers
 
       return new JsonResult(ViewBag);
     }
+
+
+    [HttpGet]
+    [Route("statistics")]
+    public async Task<IActionResult> Statistic()
+    {
+      var tradeOptions = Startup.Configuration.GetSection("TradeOptions").Get<TradeOptions>();
+
+      // QuoteCurrency
+      ViewBag.quoteCurrency = tradeOptions.QuoteCurrency;
+
+      // MarketBlackList
+      ViewBag.quoteCurrency = tradeOptions.MarketBlackList;
+
+      // OnlyTradeList
+      ViewBag.quoteCurrency = tradeOptions.OnlyTradeList;
+
+      //  AlwaysTradeList
+      ViewBag.quoteCurrency = tradeOptions.AlwaysTradeList;
+
+      // Get closed trades
+      var closedTrades = await Globals.GlobalDataStore.GetClosedTradesAsync();
+      ViewBag.closedTrades = closedTrades;
+
+      // Get winner/loser currencies
+      var coins = new Dictionary<string, decimal?>();
+
+      foreach (var cT in closedTrades)
+        if (coins.ContainsKey(cT.Market))
+          coins[cT.Market] = coins[cT.Market].Value + cT.CloseProfitPercentage;
+        else
+          coins.Add(cT.Market, cT.CloseProfitPercentage);
+      
+      ViewBag.profitCoins = coins.ToList().OrderByDescending(c => c.Value);
+      
+
+
+      return new JsonResult(ViewBag);
+    }
   }
 
+  //[Route("api/mynt/test")]
+  //public class MyntTestController : Controller
+  //{
+  //}
 
   public class MyntController : Controller
     {

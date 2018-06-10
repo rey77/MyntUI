@@ -37,14 +37,19 @@ namespace MyntUI
     public static ILoggerFactory GlobalLoggerFactory { get; set; }
     public static CancellationToken GlobalTimerCancellationToken = new CancellationToken();
     public static IHubContext<HubMyntTraders> GlobalHubMyntTraders;
+    public static IHubContext<HubMyntStatistics> GlobalHubMyntStatistics;
     public static JObject RuntimeSettings = new JObject();
 
   }
 
+  /// <summary>
+  /// Global Settings
+  /// </summary>
   public class GlobalSettings
   {
     public async static void Init()
     {
+      // Runtime platform getter
       Globals.RuntimeSettings["platform"] = new JObject();
       Globals.RuntimeSettings["platform"]["os"] = GetOs();
       Globals.RuntimeSettings["platform"]["computerName"] = Environment.MachineName;
@@ -64,20 +69,25 @@ namespace MyntUI
 
       var exchangeOptions = Globals.GlobalConfiguration.Get<ExchangeOptions>();
       exchangeOptions.Exchange = Exchange.Binance;
-      
+
+      // Global Hubs
       Globals.GlobalHubMyntTraders = Globals.GlobalServiceScope.ServiceProvider.GetService<IHubContext<HubMyntTraders>>();
+      Globals.GlobalHubMyntStatistics = Globals.GlobalServiceScope.ServiceProvider.GetService<IHubContext<HubMyntStatistics>>();
 
+      // Creating TradeManager 
       Globals.GlobalExchangeApi = new BaseExchange(exchangeOptions);
-
       ILogger paperTradeLogger = Globals.GlobalLoggerFactory.CreateLogger<PaperTradeManager>();
-
       PaperTradeManager paperTradeManager = new PaperTradeManager(new BaseExchange(exchangeOptions), new FreqClassic(), new SignalrNotificationManager(), paperTradeLogger, Globals.GlobalTradeOptions, Globals.GlobalDataStore);
-
       var runTimer = new MyntHostedService(paperTradeManager, Globals.GlobalMyntHostedServiceOptions);
 
+      // Start task
       await runTimer.StartAsync(Globals.GlobalTimerCancellationToken);
     }
 
+    /// <summary>
+    /// Get System envirement information
+    /// </summary>
+    /// <returns></returns>
     public static string GetOs()
     {
       if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))

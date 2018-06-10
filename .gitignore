@@ -296,3 +296,4 @@ __pycache__/
 Mynt.db
 
 package-lock.json
+appsettings.overrides.json
