@@ -167,7 +167,8 @@
         }
 
         connection.on('Send', function (msg) {
-          console.log(msg);
+          console.log("Msg from signalR: " + msg);
+          self.updateData();
         });
 
         connection.onclose(function (e) {
@@ -192,7 +193,13 @@
             pagefunction();
           });
         });
-      }
+      },
+      updateData: function () {
+        var self = this;
+        $.get("/api/mynt/traders", function (data) {
+          self.myntTradersData = data;
+        });
+      },
     }
   });
 </script>

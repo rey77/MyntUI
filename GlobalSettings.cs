@@ -7,6 +7,7 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -18,6 +19,7 @@ using Mynt.Core.Strategies;
 using Mynt.Core.TradeManagers;
 using Mynt.Data.LiteDB;
 using MyntUI.Hosting;
+using MyntUI.Hubs;
 using Newtonsoft.Json.Linq;
 
 namespace MyntUI
@@ -34,6 +36,7 @@ namespace MyntUI
     public static IExchangeApi GlobalExchangeApi { get; set; }
     public static ILoggerFactory GlobalLoggerFactory { get; set; }
     public static CancellationToken GlobalTimerCancellationToken = new CancellationToken();
+    public static IHubContext<HubMyntTraders> GlobalHubMyntTraders;
     public static JObject RuntimeSettings = new JObject();
 
   }
@@ -61,6 +64,8 @@ namespace MyntUI
 
       var exchangeOptions = Globals.GlobalConfiguration.Get<ExchangeOptions>();
       exchangeOptions.Exchange = Exchange.Binance;
+      
+      Globals.GlobalHubMyntTraders = Globals.GlobalServiceScope.ServiceProvider.GetService<IHubContext<HubMyntTraders>>();
 
       Globals.GlobalExchangeApi = new BaseExchange(exchangeOptions);
 

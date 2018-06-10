@@ -25,8 +25,6 @@ namespace MyntUI
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
     {
-      Globals.GlobalServiceScope = ServiceScope;
-
       services.AddConnections();
 
       services.AddSignalR();
@@ -55,6 +53,8 @@ namespace MyntUI
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
     public void Configure(IApplicationBuilder app, IHostingEnvironment hostingEnvironment, ILoggerFactory loggerFactory)
     {
+      ServiceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope();
+      Globals.GlobalServiceScope = ServiceScope;
       Globals.GlobalLoggerFactory = loggerFactory;
       Globals.GlobalApplicationBuilder = app;
 
