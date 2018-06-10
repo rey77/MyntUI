@@ -2,11 +2,8 @@ using System;
 using System.DrawingCore;
 using System.DrawingCore.Imaging;
 using System.IO;
-using System.Linq;
-using System.Net.Mime;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MyntUI.Controllers
@@ -17,7 +14,7 @@ namespace MyntUI.Controllers
     [HttpGet]
     public ActionResult Get()
     {
-      return new JsonResult(Global.RuntimeSettings);
+      return new JsonResult(Globals.RuntimeSettings);
     }
   }
 
@@ -27,11 +24,11 @@ namespace MyntUI.Controllers
     [HttpGet]
     public FileContentResult Get()
     {
-      if ((string) Global.RuntimeSettings["platform"]["os"] == "Windows")
+      if ((string) Globals.RuntimeSettings["platform"]["os"] == "Windows")
       {
         using (var ms = new MemoryStream())
         {
-          Image userAvatarImage = GetUserAvatar.GetUserTile((string) Global.RuntimeSettings["platform"]["userName"]);
+          Image userAvatarImage = GetUserAvatar.GetUserTile((string) Globals.RuntimeSettings["platform"]["userName"]);
           userAvatarImage.Save(ms, ImageFormat.Jpeg);
           ArraySegment<byte> buffer;
           if (!ms.TryGetBuffer(out buffer)) throw new ArgumentException();

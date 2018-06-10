@@ -1,37 +1,31 @@
-using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Mynt.Core.Enums;
-using Mynt.Core.Exchanges;
-using Mynt.Core.Interfaces;
-using Mynt.Core.Notifications;
-using Mynt.Core.Strategies;
-using Mynt.Core.TradeManagers;
-using Mynt.Data.LiteDB;
-using MyntUI.Hosting;
 using MyntUI.Hubs;
 using Serilog;
-using ILogger = Microsoft.Extensions.Logging.ILogger;
+using System.Net;
+using Microsoft.AspNetCore;
 
 namespace MyntUI
 {
   public class Startup
   {
+    public static IServiceScope ServiceScope { get; private set; }
+    public static IConfiguration Configuration { get; set; }
+
     public Startup(IConfiguration configuration)
     {
       Configuration = configuration;
     }
 
-    public static IConfiguration Configuration { get; set; }
+    
 
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
     {
-
+      Globals.GlobalServiceScope = ServiceScope;
 
       services.AddConnections();
 
@@ -56,42 +50,17 @@ namespace MyntUI
       services.AddLogging(b => { b.AddSerilog(serilogger); });
 
       services.AddMvc();
-
-      // Set up exchange - TODO
-      var exchangeOptions = Configuration.Get<ExchangeOptions>();
-      exchangeOptions.Exchange = Exchange.Binance;
-      services.AddSingleton<IExchangeApi>(i => new BaseExchange(exchangeOptions));
-
-      var tradeOptions = Configuration.GetSection("TradeOptions").Get<TradeOptions>();
-
-      //var type = Type.GetType($"Mynt.Core.Strategies.{tradeOptions.DefaultStrategy}, Mynt.Core", true, true);
-
-      services.AddSingleton(s => new TheScalper() as ITradingStrategy ?? new TheScalper())
-          .AddSingleton<INotificationManager, TelegramNotificationManager>()
-          .AddSingleton(i => Configuration.GetSection("Telegram").Get<TelegramNotificationOptions>()) // TODO
-
-          //.AddSingleton<IDataStore, SqlServerDataStore>()
-          //.AddSingleton(i => Configuration.GetSection("SqlServerOptions").Get<SqlServerOptions>()) // TODO
-
-          .AddSingleton<IDataStore, LiteDBDataStore>()
-          .AddSingleton(i => Configuration.GetSection("LiteDBOptions").Get<LiteDBOptions>()) // TODO
-          .AddSingleton<ITradeManager, PaperTradeManager>()
-          .AddSingleton(i => tradeOptions)
-
-          .AddSingleton<ILogger>(i => i.GetRequiredService<ILoggerFactory>().CreateLogger<MyntHostedService>())
-
-          .AddSingleton<IHostedService, MyntHostedService>()
-          .Configure<MyntHostedServiceOptions>(Configuration.GetSection("Hosting"))
-
-          ;
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-    public void Configure(IApplicationBuilder app, Microsoft.AspNetCore.Hosting.IHostingEnvironment env)
+    public void Configure(IApplicationBuilder app, IHostingEnvironment hostingEnvironment, ILoggerFactory loggerFactory)
     {
+      Globals.GlobalLoggerFactory = loggerFactory;
+      Globals.GlobalApplicationBuilder = app;
+
       app.UseStaticFiles();
 
-      if (env.IsDevelopment())
+      if (hostingEnvironment.IsDevelopment())
       {
         app.UseDeveloperExceptionPage();
       }
@@ -114,6 +83,26 @@ namespace MyntUI
           name: "spa-fallback",
           defaults: new {controller = "Home", action = "Index"});
       });
+
+      // DI is ready - Init 
+      GlobalSettings.Init();
+    }
+
+    public static void RunWebHost()
+    {
+
+      IWebHostBuilder webHostBuilder = WebHost.CreateDefaultBuilder()
+      .UseKestrel(options =>
+      {
+        options.Listen(IPAddress.Any, 5000);
+      })
+      .UseStartup<Startup>()
+      .ConfigureAppConfiguration(i =>
+          i.AddJsonFile("appsettings.overrides.json", true));
+
+      IWebHost webHost = webHostBuilder.Build();
+      webHost.Run();
+
     }
   }
 }

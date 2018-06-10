@@ -1,24 +1,22 @@
-﻿using System;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Mynt.Core.Interfaces;
 
 namespace MyntUI.Hosting
 {
     public class MyntHostedService : IHostedService, IDisposable
     {
-        private readonly ILogger<MyntHostedService> _logger;
+        private static readonly ILogger _logger = Globals.GlobalLoggerFactory.CreateLogger<MyntHostedService>();
         private readonly ITradeManager _tradeManager;
-        private readonly IOptions<MyntHostedServiceOptions> _options;
+        private readonly MyntHostedServiceOptions _options;
 
         private CancellationTokenSource _cancellationTokenSource;
 
-        public MyntHostedService(ITradeManager tradeManager, IOptions<MyntHostedServiceOptions> options, ILogger<MyntHostedService> logger)
+        public MyntHostedService(ITradeManager tradeManager, MyntHostedServiceOptions options)
         {
-            _logger = logger;
             _tradeManager = tradeManager;
             _options = options ?? throw new ArgumentNullException(nameof(options));
         }
@@ -29,8 +27,8 @@ namespace MyntUI.Hosting
 
             _cancellationTokenSource = new CancellationTokenSource();
             
-            Task.Run(() => SpinUpNewCronJob(_options.Value.BuyTimer, OnBuy), cancellationToken);
-            Task.Run(() => SpinUpNewCronJob(_options.Value.SellTimer, OnSell), cancellationToken);
+            Task.Run(() => SpinUpNewCronJob(_options.BuyTimer, OnBuy), cancellationToken);
+            Task.Run(() => SpinUpNewCronJob(_options.SellTimer, OnSell), cancellationToken);
 
             return Task.CompletedTask;
         }

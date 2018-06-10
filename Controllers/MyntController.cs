@@ -5,22 +5,25 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Mynt.Core.Interfaces;
 using Mynt.Core.TradeManagers;
+using Newtonsoft.Json.Linq;
 
 namespace MyntUI.Controllers
 {
 
+  [Route("api/mynt/tradersTester")]
+  public class MyntControllerTradersTester : Controller
+  {
+    [HttpGet]
+    public IActionResult MyntTradersTester()
+    {
+      JObject testJson = JObject.Parse(System.IO.File.ReadAllText("wwwroot/views/mynt_traders.json"));
+      return new JsonResult(testJson);
+    }
+  }
+
   [Route("api/mynt/traders")]
   public class MyntApiController : Controller
   {
-    private readonly IExchangeApi _api;
-    private readonly IDataStore _dataStore;
-
-    public MyntApiController(IDataStore dataStore, IExchangeApi api)
-    {
-      _dataStore = dataStore;
-      _api = api;
-    }
-
     [HttpGet]
     public async Task<IActionResult> Dashboard()
     {
@@ -28,14 +31,14 @@ namespace MyntUI.Controllers
 
       ViewBag.quoteCurrency = tradeOptions.QuoteCurrency;
       // Get active trades
-      var activeTrades = await _dataStore.GetActiveTradesAsync();
+      var activeTrades = await Globals.GlobalDataStore.GetActiveTradesAsync();
       ViewBag.activeTrades = activeTrades;
 
       // Get current prices
       //ExchangeSharp.
 
       // Get Traders
-      var traders = await _dataStore.GetTradersAsync();
+      var traders = await Globals.GlobalDataStore.GetTradersAsync();
       ViewBag.traders = traders;
 
       // Check if Trader has active trade
@@ -52,7 +55,7 @@ namespace MyntUI.Controllers
             var actT = trader.ActiveTrade;
 
             // Get Tickers
-            trader.ActiveTrade.TickerLast = await _api.GetTicker(actT.Market);
+            trader.ActiveTrade.TickerLast = await Globals.GlobalExchangeApi.GetTicker(actT.Market);
             trader.ActiveTrade.OpenProfit = actT.OpenRate - trader.ActiveTrade.TickerLast.Last;
             trader.ActiveTrade.OpenProfitPercentage =
               ((100 * trader.ActiveTrade.TickerLast.Last) / actT.OpenRate) - 100;
@@ -63,7 +66,7 @@ namespace MyntUI.Controllers
         trader.ProfitLoss = ((100 * trader.CurrentBalance) / trader.StakeAmount) - 100;
       }
 
-      ViewBag.closedTrades = await _dataStore.GetClosedTradesAsync();
+      ViewBag.closedTrades = await Globals.GlobalDataStore.GetClosedTradesAsync();
 
       return new JsonResult(ViewBag);
     }
@@ -72,15 +75,6 @@ namespace MyntUI.Controllers
 
   public class MyntController : Controller
     {
-        private readonly IExchangeApi _api;
-        private readonly IDataStore _dataStore;
-
-        public MyntController(IDataStore dataStore, IExchangeApi api)
-        {
-            _dataStore = dataStore;
-            _api = api;
-        }
-
         // GET: /<controller>/        
         public async Task<IActionResult> Dashboard()
         {
@@ -88,14 +82,14 @@ namespace MyntUI.Controllers
 
             ViewBag.quoteCurrency = tradeOptions.QuoteCurrency;
             // Get active trades
-            var activeTrades = await _dataStore.GetActiveTradesAsync();
+            var activeTrades = await Globals.GlobalDataStore.GetActiveTradesAsync();
             ViewBag.activeTrades = activeTrades;
 
             // Get current prices
             //ExchangeSharp.
 
             // Get Traders
-            var traders = await _dataStore.GetTradersAsync();
+            var traders = await Globals.GlobalDataStore.GetTradersAsync();
             ViewBag.traders = traders;
 
             // Check if Trader has active trade
@@ -112,7 +106,7 @@ namespace MyntUI.Controllers
                         var actT = trader.ActiveTrade;
 
                         // Get Tickers
-                        trader.ActiveTrade.TickerLast = await _api.GetTicker(actT.Market);
+                        trader.ActiveTrade.TickerLast = await Globals.GlobalExchangeApi.GetTicker(actT.Market);
                         trader.ActiveTrade.OpenProfit = actT.OpenRate - trader.ActiveTrade.TickerLast.Last;
                         trader.ActiveTrade.OpenProfitPercentage = ((100 * trader.ActiveTrade.TickerLast.Last) / actT.OpenRate) - 100;
                     }
@@ -122,7 +116,7 @@ namespace MyntUI.Controllers
                 trader.ProfitLoss = ((100 * trader.CurrentBalance) / trader.StakeAmount) - 100;
             }
 
-            ViewBag.closedTrades = await _dataStore.GetClosedTradesAsync();
+            ViewBag.closedTrades = await Globals.GlobalDataStore.GetClosedTradesAsync();
 
             return View();
         }

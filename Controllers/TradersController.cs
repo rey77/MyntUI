@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Mynt.Core.Interfaces;
@@ -9,17 +9,10 @@ namespace MyntUI.Controllers
     [Route("api/[controller]")]
     public class TradersController : Controller
     {
-        private readonly IDataStore _dataStore;
-
-        public TradersController(IDataStore dataStore)
-        {
-            _dataStore = dataStore;
-        }
-
         [HttpGet]
         public async Task<List<Trader>> Get()
         {
-            return await _dataStore.GetTradersAsync();
+            return await Globals.GlobalDataStore.GetTradersAsync();
         }
     }
 }
