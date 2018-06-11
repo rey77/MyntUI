@@ -7,6 +7,10 @@ using MyntUI.Hubs;
 using Serilog;
 using System.Net;
 using Microsoft.AspNetCore;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using MyntUI.Data;
+using System;
 
 namespace MyntUI
 {
@@ -40,6 +44,33 @@ namespace MyntUI
         });
       });
 
+      services.AddDbContext<ApplicationDbContext>(options =>
+          options.UseSqlite("Filename=MyntUIAuth.db")
+      );
+      services.AddDefaultIdentity<IdentityUser>()
+          .AddEntityFrameworkStores<ApplicationDbContext>();
+
+      //Override Password Policy
+      services.Configure<IdentityOptions>(options =>
+      {
+        options.Password.RequireDigit = false;
+        options.Password.RequiredLength = 1;
+        options.Password.RequireLowercase = false;
+        options.Password.RequireNonAlphanumeric = false;
+        options.Password.RequireUppercase = false;
+      });
+
+      // Add Database Initializer
+      services.AddTransient<IDatabaseInitializer, DatabaseInitializer>();
+
+      services.AddAuthorization();
+
+      services.Configure<SecurityStampValidatorOptions>(options =>
+      {
+        options.ValidationInterval = TimeSpan.FromHours(24);
+      });
+
+
       // Configure serilog from appsettings.json
       var serilogger = new LoggerConfiguration()
           .ReadFrom.Configuration(Configuration)
@@ -51,7 +82,7 @@ namespace MyntUI
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-    public void Configure(IApplicationBuilder app, IHostingEnvironment hostingEnvironment, ILoggerFactory loggerFactory)
+    public void Configure(IApplicationBuilder app, IHostingEnvironment hostingEnvironment, ILoggerFactory loggerFactory, IDatabaseInitializer databaseInitializer)
     {
       ServiceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope();
       Globals.GlobalServiceScope = ServiceScope;
@@ -75,6 +106,9 @@ namespace MyntUI
       });
 
       app.UseMvc();
+
+      // Init Database
+      databaseInitializer.Initialize();
 
       // DI is ready - Init 
       GlobalSettings.Init();
