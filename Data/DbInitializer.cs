@@ -18,11 +18,11 @@ namespace MyntUI.Data
     public class DatabaseInitializer : IDatabaseInitializer
     {
         private readonly ApplicationDbContext _context;
-        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly UserManager<IdentityUser> _userManager;
 
         public DatabaseInitializer(
             ApplicationDbContext context,
-            UserManager<ApplicationUser> userManager)
+            UserManager<IdentityUser> userManager)
         {
             _context = context;
             _userManager = userManager;
@@ -32,14 +32,14 @@ namespace MyntUI.Data
         {
             _context.Database.EnsureCreated();
 
-            string userName = "admin";
-            string userEmail = "admin";
+            string userName = "admin@localhost";
+            string userEmail = "admin@localhost";
             string userPassword = "admin";
 
             var user = await _userManager.FindByEmailAsync(userEmail);
             if (user == null)
             {
-                var userCreated = new ApplicationUser { UserName = userName, Email = userEmail, EmailConfirmed = true };
+                var userCreated = new IdentityUser { UserName = userName, Email = userEmail, EmailConfirmed = true };
                 var resultCreateAsync = await _userManager.CreateAsync(userCreated, userPassword);
             }
             else
