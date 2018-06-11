@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using MyntUI.Data;
 using System;
+using MyntUI.Services;
 
 namespace MyntUI
 {
@@ -47,8 +48,11 @@ namespace MyntUI
       services.AddDbContext<ApplicationDbContext>(options =>
           options.UseSqlite("Filename=MyntUIAuth.db")
       );
-      services.AddDefaultIdentity<IdentityUser>()
-          .AddEntityFrameworkStores<ApplicationDbContext>();
+
+      services.AddIdentity<IdentityUser, IdentityRole>(options => options.Stores.MaxLengthForKeys = 128)
+          .AddEntityFrameworkStores<ApplicationDbContext>()
+          // .AddDefaultUI()
+          .AddDefaultTokenProviders();
 
       //Override Password Policy
       services.Configure<IdentityOptions>(options =>
@@ -62,6 +66,10 @@ namespace MyntUI
 
       // Add Database Initializer
       services.AddTransient<IDatabaseInitializer, DatabaseInitializer>();
+
+      // Add application services.
+      services.AddTransient<IEmailSender, AuthMessageSender>();
+      services.AddTransient<ISmsSender, AuthMessageSender>();
 
       services.AddAuthorization();
 
@@ -78,7 +86,13 @@ namespace MyntUI
 
       services.AddLogging(b => { b.AddSerilog(serilogger); });
 
-      services.AddMvc();
+      services.AddMvc().AddRazorPagesOptions(options =>
+      {
+        options.Conventions.AuthorizePage("/");
+        options.Conventions.AuthorizeFolder("/");
+        //options.Conventions.AllowAnonymousToPage("/Account");
+        //options.Conventions.AllowAnonymousToFolder("/Account");
+      });
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -95,6 +109,8 @@ namespace MyntUI
       {
         app.UseDeveloperExceptionPage();
       }
+
+      app.UseAuthentication();
 
       app.UseWebSockets();
 
