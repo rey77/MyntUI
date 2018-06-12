@@ -55,10 +55,10 @@ const findVendors = () => {
   const vendors = []
   // const assets = []
   // const vendors = { css: [], js: [], other: [] }
-  const filenames = globule.find(src + '/**/*');
+  const filenames = globule.find(src + '/**/*', 'Pages/**/*');
 
   filenames.forEach((filename) => {
-    if (extension(filename) === '.html') {
+    if (extension(filename) === '.html' || extension(filename) === '.cshtml') {
       const files = fs.readFileSync(filename, 'ascii').toString().split('\n')
 
       // go through the list of code lines
@@ -68,7 +68,7 @@ const findVendors = () => {
         const nodeModules = file.match(/(?:href|src)="(\/vendors.*.[css|js])"/)
         if (nodeModules) {
           let vendor = []
-          let src = (nodeModules[1]).replace("/vendors", "node_modules")
+          let src = (nodeModules[1]).replace("@@", "@").replace("/vendors", "node_modules")
 		  
 		  let foundAssembly = false;
 		  var filepaths = globule.find('node_modules/' + src.split("/")[1] + '/**/*');

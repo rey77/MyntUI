@@ -1,68 +1,51 @@
 <!DOCTYPE html>
-<html>
+
+<html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - MyntUI</title>
-
-    <environment include="Development">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
-              integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
-        <link rel="stylesheet" href="~/css/site.css" />
-    </environment>
-    <environment exclude="Development">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
-              integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
-        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
-    </environment>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+  <meta name="description" content="CoreUI - Open Source Bootstrap Admin Template">
+  <meta name="author" content="Łukasz Holeczek">
+  <meta name="keyword" content="Bootstrap,Admin,Template,Open,Source,jQuery,CSS,HTML,RWD,Dashboard">
+  <title>CoreUI Free Bootstrap Admin Template</title>
+  <!-- Icons-->
+  <link href="/vendors/@@coreui/icons/css/coreui-icons.min.css" rel="stylesheet">
+  <link href="/vendors/flag-icon-css/css/flag-icon.min.css" rel="stylesheet">
+  <link href="/vendors/@@fortawesome/fontawesome-free-webfonts/css/fontawesome.css" rel="stylesheet">
+  <link href="/vendors/@@fortawesome/fontawesome-free-webfonts/css/fa-regular.css" rel="stylesheet">
+  <link href="/vendors/@@fortawesome/fontawesome-free-webfonts/css/fa-brands.css" rel="stylesheet">
+  <link href="/vendors/@@fortawesome/fontawesome-free-webfonts/css/fa-solid.css" rel="stylesheet">
+  <link href="/vendors/simple-line-icons/css/simple-line-icons.css" rel="stylesheet">
+  <link href="/css/pace.min.css" rel="stylesheet">
+  <!-- Main styles for this application-->
+  <link href="/css/style.css" rel="stylesheet">
 </head>
-<body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">MyntUI</a>
-        <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#Navber" aria-controls="Navber" aria-expanded="false" aria-label="ナビゲーションの切替">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="navbar-collapse collapse" id="Navber">
-            <ul class="nav navbar-nav mr-auto">
-                <li class="nav-item active"><a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link">Home</a></li>
-                <li class="nav-item active"><a asp-area="" asp-controller="Home" asp-action="About" class="nav-link">About</a></li>
-                <li class="nav-item active"><a asp-area="" asp-controller="Home" asp-action="Contact" class="nav-link">Contact</a></li>
-            </ul>
-            <partial name="_LoginPartial" />
-        </div>
-    </nav>
-
-    <partial name="_CookieConsentPartial" />
-
-    <div class="container body-content">
+<body class="app flex-row align-items-center">
+  <partial name="_CookieConsentPartial" />
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
         @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; 2018 - MyntUI</p>
-        </footer>
+      </div>
     </div>
+  </div>
 
-    <environment include="Development">
-        <script src="~/lib/jquery/dist/jquery.js"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-        <script src="~/js/site.js" asp-append-version="true"></script>
-    </environment>
-    <environment exclude="Development">
-        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"
-                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
-                asp-fallback-test="window.jQuery"
-                crossorigin="anonymous"
-                integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT">
-        </script>
-        <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"
-                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
-                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
-                crossorigin="anonymous"
-                integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
-        </script>
-        <script src="~/js/site.min.js" asp-append-version="true"></script>
-    </environment>
 
-    @RenderSection("Scripts", required: false)
+  <!-- Bootstrap and necessary plugins-->
+  <script src="/vendors/jquery/js/jquery.min.js"></script>
+  <script src="/vendors/popper.js/js/popper.min.js"></script>
+  <script src="/vendors/bootstrap/js/bootstrap.min.js"></script>
+  <script src="/vendors/pace-progress/js/pace.min.js"></script>
+  <script src="/vendors/perfect-scrollbar/js/perfect-scrollbar.min.js"></script>
+  <script src="/vendors/@@coreui/coreui/js/coreui.min.js"></script>
+  <script src="/vendors/vue/js/vue.min.js"></script>
+  <script>
+    $('#ui-view').ajaxLoad();
+    $(document).ajaxComplete(function () {
+      Pace.restart()
+    });
+  </script>
+  @RenderSection("Scripts", required: false)
 </body>
 </html>
