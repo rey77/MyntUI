@@ -1,3 +1,5 @@
+<script src="/vendors/moment/js/moment-with-locales.min.js"></script>
+
 <div class="animated fadeIn" id="myntTraders" v-if="myntTradersData">
   <h3 class="mt-5">Traders</h3>
   <p v-if="myntTradersData.traders.length == 0">No traders!</p>
@@ -63,7 +65,7 @@
         <tbody>
           <tr v-for="(value, key, index) in myntTradersData.activeTrades">
             <td>{{myntTradersData.activeTrades[key].traderId}}</td>
-            <td>{{myntTradersData.activeTrades[key].openDate}}</td>
+            <td>{{moment(myntTradersData.activeTrades[key].openDate)}}</td>
             <td>{{myntTradersData.activeTrades[key].market}}</td>
             <td>{{myntTradersData.activeTrades[key].quantity}}</td>
             <td>{{myntTradersData.activeTrades[key].openRate}}</td>
@@ -97,14 +99,14 @@
         <tbody>
           <tr v-for="(value, key, index) in myntTradersData.closedTrades">
             <td>{{myntTradersData.closedTrades[key].traderId}}</td>
-            <td>{{myntTradersData.closedTrades[key].openDate}}</td>
+            <td>{{moment(myntTradersData.closedTrades[key].openDate)}}</td>
             <td>{{myntTradersData.closedTrades[key].market}}</td>
             <td>{{myntTradersData.closedTrades[key].openRate}}</td>
             <td>{{myntTradersData.closedTrades[key].quantity}}</td>
             <td>{{myntTradersData.closedTrades[key].closeRate}}</td>
-            <td>{{myntTradersData.closedTrades[key].closeDate}}</td>
+            <td>{{moment(myntTradersData.closedTrades[key].closeDate)}}</td>
             <td>{{myntTradersData.closedTrades[key].closeProfit}}</td>
-            <td>{{myntTradersData.closedTrades[key].closeProfitPercentage}}</td>
+            <td>{{parseFloat(myntTradersData.closedTrades[key].closeProfitPercentage).toFixed(2)}} %</td>
             <td>{{myntTradersData.closedTrades[key].sellType}}</td>
           </tr>
         </tbody>
@@ -199,6 +201,9 @@
         $.get("/api/mynt/traders/dashboard", function (data) {
           self.myntTradersData = data;
         });
+      },
+      moment: function (data) {
+        return moment(data).format("YYYY-MM-DD HH:mm:ss");
       },
     }
   });
