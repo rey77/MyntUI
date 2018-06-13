@@ -52,11 +52,14 @@
   <partial name="_ValidationScriptsPartial" />
   <script type="text/javascript" src="/vendors/qrcodejs2/js/qrcode.min.js"></script>
   <script type="text/javascript">
+    $(document).ready(function () {
     new QRCode(document.getElementById("qrCode"),
         {
             text: "@Html.Raw(Model.AuthenticatorUri)",
             width: 150,
             height: 150
         });
+    });
+
   </script>
 }
