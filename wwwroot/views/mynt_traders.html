@@ -6,30 +6,30 @@
 
   <div class="row" v-if="myntTradersData.traders.length > 0">
     <template v-for="(value, key, index) in myntTradersData.traders">
-      <div class="col-lg-6 col-md-6 col-sm-6">
+      <div class="col-6">
         <div class="card text-white bg-primary trader">
           <div class="card-body">
             <div class="row">
-              <div class="col-md-8">
+              <div class="col-8">
                 <h4 class="card-title">Trader {{myntTradersData.traders[key].identifier}}</h4>
               </div>
-              <div class="col-md-4">
+              <div class="col-4">
                 <!--<a href="#" class="btn btn-success btn-xs">! Sell now</a>-->
               </div>
             </div>
             <div class="row">
-              <div class="col-md-4">
+              <div class="col-4">
                 <div>Current Balance</div>
                 <b>{{myntTradersData.quoteCurrency}}</b>
               </div>
-              <div class="col-md-4">
+              <div class="col-4">
                 <div>Profit/Loss</div>
                 <div>
                   {{myntTradersData.traders[key].profitLoss}}
                   <span class="currencyStyle">{{myntTradersData.quoteCurrency}}</span>
                 </div>
               </div>
-              <div class="col-md-4">
+              <div class="col-4">
                 <div>Trading</div>
                 <div v-if="myntTradersData.activeTrades.length > 0">
 				  <template v-if="myntTradersData.activeTrades[key]">
