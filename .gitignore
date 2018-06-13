@@ -297,3 +297,4 @@ Mynt.db
 
 package-lock.json
 appsettings.overrides.json
+/MyntUIAuth.db
