@@ -2,6 +2,6 @@
 <div class="animated fadeIn">
     @foreach (string line in MyntUI.Controllers.Log.ReadTail("Logs/Mynt-" + DateTime.Now.ToString("yyyyMMdd") + ".log", 100))
     {
-      @line <br />
+        @line <br />
     }
 </div>

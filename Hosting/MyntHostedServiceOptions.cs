@@ -1,4 +1,4 @@
-﻿namespace MyntUI.Hosting
+namespace MyntUI.Hosting
 {
     public class MyntHostedServiceOptions
     {

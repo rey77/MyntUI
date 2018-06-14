@@ -15,136 +15,134 @@ using MyntUI.Services;
 
 namespace MyntUI
 {
-  public class Startup
-  {
-    public static IServiceScope ServiceScope { get; private set; }
-    public static IConfiguration Configuration { get; set; }
-
-    public Startup(IConfiguration configuration)
+    public class Startup
     {
-      Configuration = configuration;
-    }
+        public static IServiceScope ServiceScope { get; private set; }
+        public static IConfiguration Configuration { get; set; }
 
-    
-
-    // This method gets called by the runtime. Use this method to add services to the container.
-    public void ConfigureServices(IServiceCollection services)
-    {
-      services.AddConnections();
-
-      services.AddSignalR();
-
-      services.AddCors(o =>
-      {
-        o.AddPolicy("Everything", p =>
+        public Startup(IConfiguration configuration)
         {
-          p.AllowAnyHeader()
-            .AllowAnyMethod()
-            .AllowAnyOrigin()
-            .AllowCredentials();
-        });
+            Configuration = configuration;
+        }
+
+        // This method gets called by the runtime. Use this method to add services to the container.
+        public void ConfigureServices(IServiceCollection services)
+        {
+            services.AddConnections();
+
+            services.AddSignalR();
+
+            services.AddCors(o =>
+            {
+                o.AddPolicy("Everything", p =>
+          {
+                  p.AllowAnyHeader()
+              .AllowAnyMethod()
+              .AllowAnyOrigin()
+              .AllowCredentials();
+              });
+            });
+
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlite("Filename=MyntUIAuth.db")
+            );
+
+            services.AddIdentity<IdentityUser, IdentityRole>(options => options.Stores.MaxLengthForKeys = 128)
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                // .AddDefaultUI()
+                .AddDefaultTokenProviders();
+
+            //Override Password Policy
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.Password.RequireDigit = false;
+                options.Password.RequiredLength = 1;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+            });
+
+            // Add Database Initializer
+            services.AddTransient<IDatabaseInitializer, DatabaseInitializer>();
+
+            // Add application services.
+            services.AddTransient<IEmailSender, AuthMessageSender>();
+            services.AddTransient<ISmsSender, AuthMessageSender>();
+
+            services.AddAuthorization();
+
+            services.Configure<SecurityStampValidatorOptions>(options =>
+            {
+                options.ValidationInterval = TimeSpan.FromHours(24);
+            });
+
+
+            // Configure serilog from appsettings.json
+            var serilogger = new LoggerConfiguration()
+                .ReadFrom.Configuration(Configuration)
+                .CreateLogger();
+
+            services.AddLogging(b => { b.AddSerilog(serilogger); });
+
+            services.AddMvc().AddRazorPagesOptions(options =>
+            {
+                options.Conventions.AuthorizePage("/");
+                options.Conventions.AuthorizeFolder("/");
+                //options.Conventions.AllowAnonymousToPage("/Account");
+                //options.Conventions.AllowAnonymousToFolder("/Account");
       });
+        }
 
-      services.AddDbContext<ApplicationDbContext>(options =>
-          options.UseSqlite("Filename=MyntUIAuth.db")
-      );
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        public void Configure(IApplicationBuilder app, IHostingEnvironment hostingEnvironment, ILoggerFactory loggerFactory, IDatabaseInitializer databaseInitializer)
+        {
+            ServiceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope();
+            Globals.GlobalServiceScope = ServiceScope;
+            Globals.GlobalLoggerFactory = loggerFactory;
+            Globals.GlobalApplicationBuilder = app;
 
-      services.AddIdentity<IdentityUser, IdentityRole>(options => options.Stores.MaxLengthForKeys = 128)
-          .AddEntityFrameworkStores<ApplicationDbContext>()
-          // .AddDefaultUI()
-          .AddDefaultTokenProviders();
+            app.UseStaticFiles();
 
-      //Override Password Policy
-      services.Configure<IdentityOptions>(options =>
-      {
-        options.Password.RequireDigit = false;
-        options.Password.RequiredLength = 1;
-        options.Password.RequireLowercase = false;
-        options.Password.RequireNonAlphanumeric = false;
-        options.Password.RequireUppercase = false;
-      });
+            if (hostingEnvironment.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
 
-      // Add Database Initializer
-      services.AddTransient<IDatabaseInitializer, DatabaseInitializer>();
+            app.UseAuthentication();
 
-      // Add application services.
-      services.AddTransient<IEmailSender, AuthMessageSender>();
-      services.AddTransient<ISmsSender, AuthMessageSender>();
+            app.UseWebSockets();
 
-      services.AddAuthorization();
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<HubMainIndex>("/signalr/HubMainIndex");
+                routes.MapHub<HubMyntTraders>("/signalr/HubMyntTraders");
+                routes.MapHub<HubMyntStatistics>("/signalr/HubMyntStatistics");
+            });
 
-      services.Configure<SecurityStampValidatorOptions>(options =>
-      {
-        options.ValidationInterval = TimeSpan.FromHours(24);
-      });
+            app.UseMvc();
 
+            // Init Database
+            databaseInitializer.Initialize();
 
-      // Configure serilog from appsettings.json
-      var serilogger = new LoggerConfiguration()
-          .ReadFrom.Configuration(Configuration)
-          .CreateLogger();
+            // DI is ready - Init 
+            GlobalSettings.Init();
+        }
 
-      services.AddLogging(b => { b.AddSerilog(serilogger); });
+        public static void RunWebHost()
+        {
 
-      services.AddMvc().AddRazorPagesOptions(options =>
-      {
-        options.Conventions.AuthorizePage("/");
-        options.Conventions.AuthorizeFolder("/");
-        //options.Conventions.AllowAnonymousToPage("/Account");
-        //options.Conventions.AllowAnonymousToFolder("/Account");
-      });
+            IWebHostBuilder webHostBuilder = WebHost.CreateDefaultBuilder()
+            .UseKestrel(options =>
+            {
+                options.Listen(IPAddress.Any, 5000);
+            })
+            .UseStartup<Startup>()
+            .ConfigureAppConfiguration(i =>
+                i.AddJsonFile("appsettings.overrides.json", true));
+
+            IWebHost webHost = webHostBuilder.Build();
+            webHost.Run();
+
+        }
     }
-
-    // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-    public void Configure(IApplicationBuilder app, IHostingEnvironment hostingEnvironment, ILoggerFactory loggerFactory, IDatabaseInitializer databaseInitializer)
-    {
-      ServiceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope();
-      Globals.GlobalServiceScope = ServiceScope;
-      Globals.GlobalLoggerFactory = loggerFactory;
-      Globals.GlobalApplicationBuilder = app;
-
-      app.UseStaticFiles();
-
-      if (hostingEnvironment.IsDevelopment())
-      {
-        app.UseDeveloperExceptionPage();
-      }
-
-      app.UseAuthentication();
-
-      app.UseWebSockets();
-
-      app.UseSignalR(routes =>
-      {
-        routes.MapHub<HubMainIndex>("/signalr/HubMainIndex");
-        routes.MapHub<HubMyntTraders>("/signalr/HubMyntTraders");
-        routes.MapHub<HubMyntStatistics>("/signalr/HubMyntStatistics");
-      });
-
-      app.UseMvc();
-
-      // Init Database
-      databaseInitializer.Initialize();
-
-      // DI is ready - Init 
-      GlobalSettings.Init();
-    }
-
-    public static void RunWebHost()
-    {
-
-      IWebHostBuilder webHostBuilder = WebHost.CreateDefaultBuilder()
-      .UseKestrel(options =>
-      {
-        options.Listen(IPAddress.Any, 5000);
-      })
-      .UseStartup<Startup>()
-      .ConfigureAppConfiguration(i =>
-          i.AddJsonFile("appsettings.overrides.json", true));
-
-      IWebHost webHost = webHostBuilder.Build();
-      webHost.Run();
-
-    }
-  }
 }

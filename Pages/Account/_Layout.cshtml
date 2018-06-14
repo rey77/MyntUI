@@ -2,50 +2,50 @@
 
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-  <meta name="description" content="CoreUI - Open Source Bootstrap Admin Template">
-  <meta name="author" content="Łukasz Holeczek">
-  <meta name="keyword" content="Bootstrap,Admin,Template,Open,Source,jQuery,CSS,HTML,RWD,Dashboard">
-  <title>CoreUI Free Bootstrap Admin Template</title>
-  <!-- Icons-->
-  <link href="/vendors/@@coreui/icons/css/coreui-icons.min.css" rel="stylesheet">
-  <link href="/vendors/flag-icon-css/css/flag-icon.min.css" rel="stylesheet">
-  <link href="/vendors/@@fortawesome/fontawesome-free-webfonts/css/fontawesome.css" rel="stylesheet">
-  <link href="/vendors/@@fortawesome/fontawesome-free-webfonts/css/fa-regular.css" rel="stylesheet">
-  <link href="/vendors/@@fortawesome/fontawesome-free-webfonts/css/fa-brands.css" rel="stylesheet">
-  <link href="/vendors/@@fortawesome/fontawesome-free-webfonts/css/fa-solid.css" rel="stylesheet">
-  <link href="/vendors/simple-line-icons/css/simple-line-icons.css" rel="stylesheet">
-  <link href="/css/pace.min.css" rel="stylesheet">
-  <!-- Main styles for this application-->
-  <link href="/css/style.css" rel="stylesheet">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta name="description" content="CoreUI - Open Source Bootstrap Admin Template">
+    <meta name="author" content="Łukasz Holeczek">
+    <meta name="keyword" content="Bootstrap,Admin,Template,Open,Source,jQuery,CSS,HTML,RWD,Dashboard">
+    <title>CoreUI Free Bootstrap Admin Template</title>
+    <!-- Icons-->
+    <link href="/vendors/@@coreui/icons/css/coreui-icons.min.css" rel="stylesheet">
+    <link href="/vendors/flag-icon-css/css/flag-icon.min.css" rel="stylesheet">
+    <link href="/vendors/@@fortawesome/fontawesome-free-webfonts/css/fontawesome.css" rel="stylesheet">
+    <link href="/vendors/@@fortawesome/fontawesome-free-webfonts/css/fa-regular.css" rel="stylesheet">
+    <link href="/vendors/@@fortawesome/fontawesome-free-webfonts/css/fa-brands.css" rel="stylesheet">
+    <link href="/vendors/@@fortawesome/fontawesome-free-webfonts/css/fa-solid.css" rel="stylesheet">
+    <link href="/vendors/simple-line-icons/css/simple-line-icons.css" rel="stylesheet">
+    <link href="/css/pace.min.css" rel="stylesheet">
+    <!-- Main styles for this application-->
+    <link href="/css/style.css" rel="stylesheet">
 </head>
 <body class="app flex-row align-items-center">
-  <partial name="_CookieConsentPartial" />
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-md-8">
-        @RenderBody()
-      </div>
+    <partial name="_CookieConsentPartial" />
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                @RenderBody()
+            </div>
+        </div>
     </div>
-  </div>
 
 
-  <!-- Bootstrap and necessary plugins-->
-  <script src="/vendors/jquery/js/jquery.min.js"></script>
-  <script src="/vendors/popper.js/js/popper.min.js"></script>
-  <script src="/vendors/bootstrap/js/bootstrap.min.js"></script>
-  <script src="/vendors/pace-progress/js/pace.min.js"></script>
-  <script src="/vendors/perfect-scrollbar/js/perfect-scrollbar.min.js"></script>
-  <script src="/vendors/@@coreui/coreui/js/coreui.min.js"></script>
-  <script src="/vendors/vue/js/vue.min.js"></script>
-  <script>
+    <!-- Bootstrap and necessary plugins-->
+    <script src="/vendors/jquery/js/jquery.min.js"></script>
+    <script src="/vendors/popper.js/js/popper.min.js"></script>
+    <script src="/vendors/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/vendors/pace-progress/js/pace.min.js"></script>
+    <script src="/vendors/perfect-scrollbar/js/perfect-scrollbar.min.js"></script>
+    <script src="/vendors/@@coreui/coreui/js/coreui.min.js"></script>
+    <script src="/vendors/vue/js/vue.min.js"></script>
+    <script>
     $('#ui-view').ajaxLoad();
     $(document).ajaxComplete(function () {
       Pace.restart()
     });
-  </script>
-  @RenderSection("Scripts", required: false)
+    </script>
+    @RenderSection("Scripts", required: false)
 </body>
 </html>

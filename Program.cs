@@ -1,19 +1,19 @@
 namespace MyntUI
 {
-  class Program
-  {
-    static void Main(string[] args)
+    class Program
     {
-      WebApplication.ProcessInit();
+        static void Main(string[] args)
+        {
+            WebApplication.ProcessInit();
+        }
     }
-  }
 
-  public static class WebApplication
-  {
-    public static void ProcessInit()
+    public static class WebApplication
     {
-      Startup.RunWebHost();
+        public static void ProcessInit()
+        {
+            Startup.RunWebHost();
+        }
     }
-  }
 
 }

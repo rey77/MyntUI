@@ -1,17 +1,17 @@
 @{
-  Layout = "/Pages/_Layout.cshtml";
+    Layout = "/Pages/_Layout.cshtml";
 }
 <div>
-  <h4>Change your account settings</h4>
-  <hr />
-  <div class="row">
-    <div class="col-3">
-      <partial name="_ManageNav" />
+    <h4>Change your account settings</h4>
+    <hr />
+    <div class="row">
+        <div class="col-3">
+            <partial name="_ManageNav" />
+        </div>
+        <div class="col-9">
+            @RenderBody()
+        </div>
     </div>
-    <div class="col-9">
-      @RenderBody()
-    </div>
-  </div>
 </div>
 
 @RenderSection("Scripts", required: false)

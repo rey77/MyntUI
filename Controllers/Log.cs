@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -20,7 +20,7 @@ namespace MyntUI.Controllers
                 return Tail(tr, lines, true);
             }
         }
-        
+
 
         ///<summary>Returns the end of a text reader.</summary>
         ///<param name="reader">The reader to read from.</param>
@@ -38,7 +38,7 @@ namespace MyntUI.Controllers
             }
 
             //The index of the last line read from the buffer.  Everything > this index was read earlier than everything <= this indes
-            int lastLine = lineCount - 1;           
+            int lastLine = lineCount - 1;
 
             while (null != (line = reader.ReadLine()))
             {

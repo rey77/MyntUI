@@ -2,173 +2,98 @@
 @model LoginModel
 
 @{
-  ViewData["Title"] = "Log in";
+    ViewData["Title"] = "Log in";
 }
 <form method="post">
-  <div class="card-group">
-    <div class="card p-4">
-      <div class="card-body">
-        <h1>MyntUI Login</h1>
-        <p class="text-muted">Sign In to your account</p>
-        <div asp-validation-summary="All" class="text-danger"></div>
-        <div class="input-group mb-3">
-          <div class="input-group-prepend">
-            <span class="input-group-text">
-              <i class="icon-user"></i>
-            </span>
-          </div>
-          <input asp-for="Input.Email" class="form-control" />
-          <span asp-validation-for="Input.Email" class="text-danger"></span>
-        </div>
-        <div class="input-group mb-4">
-          <div class="input-group-prepend">
-            <span class="input-group-text">
-              <i class="icon-lock"></i>
-            </span>
-          </div>
-          <input asp-for="Input.Password" class="form-control" />
-          <span asp-validation-for="Input.Password" class="text-danger"></span>
-        </div>
-        <div class="row">
-          <div class="col-6">
-            <button type="submit" class="btn btn-primary px-4">Login</button>
-          </div>
-          <div class="col-6">
-            <div class="form-group">
-              <div class="checkbox">
-                <label asp-for="Input.RememberMe">
-                  <input asp-for="Input.RememberMe" />
-                  @Html.DisplayNameFor(m => m.Input.RememberMe)
-                </label>
-              </div>
+    <div class="card-group">
+        <div class="card p-4">
+            <div class="card-body">
+                <h1>MyntUI Login</h1>
+                <p class="text-muted">Sign In to your account</p>
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i class="icon-user"></i>
+                        </span>
+                    </div>
+                    <input asp-for="Input.Email" class="form-control" />
+                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                </div>
+                <div class="input-group mb-4">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i class="icon-lock"></i>
+                        </span>
+                    </div>
+                    <input asp-for="Input.Password" class="form-control" />
+                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <button type="submit" class="btn btn-primary px-4">Login</button>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <div class="checkbox">
+                                <label asp-for="Input.RememberMe">
+                                    <input asp-for="Input.RememberMe" />
+                                    @Html.DisplayNameFor(m => m.Input.RememberMe)
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <a class="btn btn-link px-0" asp-page="./ForgotPassword">Forgot your password?</a>
+                    </div>
+                    <div class="col-6">
+                        <a class="btn btn-link px-0" asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register as a new user</a>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-        <div class="row">
-          <div class="col-6">
-            <a class="btn btn-link px-0" asp-page="./ForgotPassword">Forgot your password?</a>
-          </div>
-          <div class="col-6">
-            <a class="btn btn-link px-0" asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register as a new user</a>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="card text-white bg-primary py-5 d-md-down-none" style="width:44%">
-      <div class="card-body text-center">
-        <div>
-          <h2>Sign up</h2>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-          <a class="btn btn-primary active mt-3" asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register Now!</a>
-        </div>
-        <!--
-        <h4>Use another service to log in.</h4>
-        <hr />
-        @{
-          if ((Model.ExternalLogins?.Count ?? 0) == 0)
-          {
-            <div>
-              <p>
-                There are no external authentication services configured. See <a href="https://go.microsoft.com/fwlink/?LinkID=532715">this article</a>
-                for details on setting up this ASP.NET application to support logging in via external services.
-              </p>
-            </div>
-          }
-          else
-          {
-            <form asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
-              <div>
-                <p>
-                  @foreach (var provider in Model.ExternalLogins)
+        <div class="card text-white bg-primary py-5 d-md-down-none" style="width:44%">
+            <div class="card-body text-center">
+                <div>
+                    <h2>Sign up</h2>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                    <a class="btn btn-primary active mt-3" asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register Now!</a>
+                </div>
+                <!--
+                <h4>Use another service to log in.</h4>
+                <hr />
+                @{
+                  if ((Model.ExternalLogins?.Count ?? 0) == 0)
                   {
-                    <button type="submit" class="btn btn-default" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
+                    <div>
+                      <p>
+                        There are no external authentication services configured. See <a href="https://go.microsoft.com/fwlink/?LinkID=532715">this article</a>
+                        for details on setting up this ASP.NET application to support logging in via external services.
+                      </p>
+                    </div>
                   }
-                </p>
-              </div>
-            </form>
-          }
-        }
-        -->
-      </div>
+                  else
+                  {
+                    <form asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
+                      <div>
+                        <p>
+                          @foreach (var provider in Model.ExternalLogins)
+                          {
+                            <button type="submit" class="btn btn-default" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
+                          }
+                        </p>
+                      </div>
+                    </form>
+                  }
+                }
+                -->
+            </div>
+        </div>
     </div>
-  </div>
 </form>
 
-
-<!--
-<h2>@ViewData["Title"]</h2>
-<div class="row">
-  <div class="col-md-4">
-    <section>
-      <form method="post">
-        <h4>Use a local account to log in.</h4>
-        <hr />
-        <div asp-validation-summary="All" class="text-danger"></div>
-        <div class="form-group">
-          <label asp-for="Input.Email"></label>
-          <input asp-for="Input.Email" class="form-control" />
-          <span asp-validation-for="Input.Email" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-          <label asp-for="Input.Password"></label>
-          <input asp-for="Input.Password" class="form-control" />
-          <span asp-validation-for="Input.Password" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-          <div class="checkbox">
-            <label asp-for="Input.RememberMe">
-              <input asp-for="Input.RememberMe" />
-              @Html.DisplayNameFor(m => m.Input.RememberMe)
-            </label>
-          </div>
-        </div>
-        <div class="form-group">
-          <button type="submit" class="btn btn-default">Log in</button>
-        </div>
-        <div class="form-group">
-          <p>
-            <a asp-page="./ForgotPassword">Forgot your password?</a>
-          </p>
-          <p>
-            <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register as a new user</a>
-          </p>
-        </div>
-      </form>
-    </section>
-  </div>
-  <div class="col-md-6 col-md-offset-2">
-    <section>
-      <h4>Use another service to log in.</h4>
-      <hr />
-      @{
-        if ((Model.ExternalLogins?.Count ?? 0) == 0)
-        {
-          <div>
-            <p>
-              There are no external authentication services configured. See <a href="https://go.microsoft.com/fwlink/?LinkID=532715">this article</a>
-              for details on setting up this ASP.NET application to support logging in via external services.
-            </p>
-          </div>
-        }
-        else
-        {
-          <form asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
-            <div>
-              <p>
-                @foreach (var provider in Model.ExternalLogins)
-                {
-                  <button type="submit" class="btn btn-default" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
-                }
-              </p>
-            </div>
-          </form>
-        }
-      }
-    </section>
-  </div>
-</div>
-
 @section Scripts {
-  <partial name="_ValidationScriptsPartial" />
+    <partial name="_ValidationScriptsPartial" />
 }
-    -->

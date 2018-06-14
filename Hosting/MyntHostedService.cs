@@ -26,7 +26,7 @@ namespace MyntUI.Hosting
             _logger.LogInformation("Mynt service is starting.");
 
             _cancellationTokenSource = new CancellationTokenSource();
-            
+
             Task.Run(() => SpinUpNewCronJob(_options.BuyTimer, OnBuy), cancellationToken);
             Task.Run(() => SpinUpNewCronJob(_options.SellTimer, OnSell), cancellationToken);
 

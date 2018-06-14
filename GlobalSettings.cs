@@ -24,89 +24,89 @@ using Newtonsoft.Json.Linq;
 
 namespace MyntUI
 {
-  public static class Globals
-  {
-    public static IApplicationBuilder GlobalApplicationBuilder;
-    public static IServiceScope GlobalServiceScope { get; set; }
-    public static IConfiguration GlobalConfiguration { get; set; }
-    public static IDataStore GlobalDataStore { get; set; }
-    public static TradeOptions GlobalTradeOptions { get; set; }
-    public static MyntHostedServiceOptions GlobalMyntHostedServiceOptions { get; set; }
-    public static ExchangeOptions GlobalExchangeOptions { get; set; }
-    public static IExchangeApi GlobalExchangeApi { get; set; }
-    public static ILoggerFactory GlobalLoggerFactory { get; set; }
-    public static CancellationToken GlobalTimerCancellationToken = new CancellationToken();
-    public static IHubContext<HubMyntTraders> GlobalHubMyntTraders;
-    public static IHubContext<HubMyntStatistics> GlobalHubMyntStatistics;
-    public static JObject RuntimeSettings = new JObject();
-
-  }
-
-  /// <summary>
-  /// Global Settings
-  /// </summary>
-  public class GlobalSettings
-  {
-    public async static void Init()
+    public static class Globals
     {
-      // Runtime platform getter
-      Globals.RuntimeSettings["platform"] = new JObject();
-      Globals.RuntimeSettings["platform"]["os"] = GetOs();
-      Globals.RuntimeSettings["platform"]["computerName"] = Environment.MachineName;
-      Globals.RuntimeSettings["platform"]["userName"] = Environment.UserName;
-      Globals.RuntimeSettings["platform"]["webInitialized"] = false;
-      Globals.RuntimeSettings["platform"]["settingsInitialized"] = false;
-      Globals.RuntimeSettings["signalrClients"] = new JObject();
+        public static IApplicationBuilder GlobalApplicationBuilder;
+        public static IServiceScope GlobalServiceScope { get; set; }
+        public static IConfiguration GlobalConfiguration { get; set; }
+        public static IDataStore GlobalDataStore { get; set; }
+        public static TradeOptions GlobalTradeOptions { get; set; }
+        public static MyntHostedServiceOptions GlobalMyntHostedServiceOptions { get; set; }
+        public static ExchangeOptions GlobalExchangeOptions { get; set; }
+        public static IExchangeApi GlobalExchangeApi { get; set; }
+        public static ILoggerFactory GlobalLoggerFactory { get; set; }
+        public static CancellationToken GlobalTimerCancellationToken = new CancellationToken();
+        public static IHubContext<HubMyntTraders> GlobalHubMyntTraders;
+        public static IHubContext<HubMyntStatistics> GlobalHubMyntStatistics;
+        public static JObject RuntimeSettings = new JObject();
 
-      var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json", optional: true);
-      Globals.GlobalConfiguration = builder.Build();
-      Globals.GlobalTradeOptions = Globals.GlobalConfiguration.GetSection("TradeOptions").Get<TradeOptions>();
-      Globals.GlobalExchangeOptions = Globals.GlobalConfiguration.Get<ExchangeOptions>();
-      Globals.GlobalMyntHostedServiceOptions = Globals.GlobalConfiguration.GetSection("Hosting").Get<MyntHostedServiceOptions>();
-
-      LiteDBOptions databaseOptions = new LiteDBOptions();
-      Globals.GlobalDataStore = new LiteDBDataStore(databaseOptions);
-
-      var exchangeOptions = Globals.GlobalConfiguration.Get<ExchangeOptions>();
-      exchangeOptions.Exchange = Exchange.Binance;
-
-      // Global Hubs
-      Globals.GlobalHubMyntTraders = Globals.GlobalServiceScope.ServiceProvider.GetService<IHubContext<HubMyntTraders>>();
-      Globals.GlobalHubMyntStatistics = Globals.GlobalServiceScope.ServiceProvider.GetService<IHubContext<HubMyntStatistics>>();
-
-      // Creating TradeManager 
-      Globals.GlobalExchangeApi = new BaseExchange(exchangeOptions);
-      ILogger paperTradeLogger = Globals.GlobalLoggerFactory.CreateLogger<PaperTradeManager>();
-      PaperTradeManager paperTradeManager = new PaperTradeManager(new BaseExchange(exchangeOptions), new FreqClassic(), new SignalrNotificationManager(), paperTradeLogger, Globals.GlobalTradeOptions, Globals.GlobalDataStore);
-      var runTimer = new MyntHostedService(paperTradeManager, Globals.GlobalMyntHostedServiceOptions);
-
-      // Start task
-      await runTimer.StartAsync(Globals.GlobalTimerCancellationToken);
     }
 
     /// <summary>
-    /// Get System envirement information
+    /// Global Settings
     /// </summary>
-    /// <returns></returns>
-    public static string GetOs()
+    public class GlobalSettings
     {
-      if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-      {
-        return "Windows";
-      }
+        public async static void Init()
+        {
+            // Runtime platform getter
+            Globals.RuntimeSettings["platform"] = new JObject();
+            Globals.RuntimeSettings["platform"]["os"] = GetOs();
+            Globals.RuntimeSettings["platform"]["computerName"] = Environment.MachineName;
+            Globals.RuntimeSettings["platform"]["userName"] = Environment.UserName;
+            Globals.RuntimeSettings["platform"]["webInitialized"] = false;
+            Globals.RuntimeSettings["platform"]["settingsInitialized"] = false;
+            Globals.RuntimeSettings["signalrClients"] = new JObject();
 
-      if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-      {
-        return "Linux";
-      }
+            var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json", optional: true);
+            Globals.GlobalConfiguration = builder.Build();
+            Globals.GlobalTradeOptions = Globals.GlobalConfiguration.GetSection("TradeOptions").Get<TradeOptions>();
+            Globals.GlobalExchangeOptions = Globals.GlobalConfiguration.Get<ExchangeOptions>();
+            Globals.GlobalMyntHostedServiceOptions = Globals.GlobalConfiguration.GetSection("Hosting").Get<MyntHostedServiceOptions>();
 
-      if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-      {
-        return "OSX";
-      }
+            LiteDBOptions databaseOptions = new LiteDBOptions();
+            Globals.GlobalDataStore = new LiteDBDataStore(databaseOptions);
 
-      return "Unknown";
+            var exchangeOptions = Globals.GlobalConfiguration.Get<ExchangeOptions>();
+            exchangeOptions.Exchange = Exchange.Binance;
+
+            // Global Hubs
+            Globals.GlobalHubMyntTraders = Globals.GlobalServiceScope.ServiceProvider.GetService<IHubContext<HubMyntTraders>>();
+            Globals.GlobalHubMyntStatistics = Globals.GlobalServiceScope.ServiceProvider.GetService<IHubContext<HubMyntStatistics>>();
+
+            // Creating TradeManager 
+            Globals.GlobalExchangeApi = new BaseExchange(exchangeOptions);
+            ILogger paperTradeLogger = Globals.GlobalLoggerFactory.CreateLogger<PaperTradeManager>();
+            PaperTradeManager paperTradeManager = new PaperTradeManager(new BaseExchange(exchangeOptions), new FreqClassic(), new SignalrNotificationManager(), paperTradeLogger, Globals.GlobalTradeOptions, Globals.GlobalDataStore);
+            var runTimer = new MyntHostedService(paperTradeManager, Globals.GlobalMyntHostedServiceOptions);
+
+            // Start task
+            await runTimer.StartAsync(Globals.GlobalTimerCancellationToken);
+        }
+
+        /// <summary>
+        /// Get System envirement information
+        /// </summary>
+        /// <returns></returns>
+        public static string GetOs()
+        {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                return "Windows";
+            }
+
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            {
+                return "Linux";
+            }
+
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
+                return "OSX";
+            }
+
+            return "Unknown";
+        }
+
     }
-
-  }
 }
